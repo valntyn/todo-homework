@@ -24,4 +24,22 @@ export const configureDate = (receivedDate: number | Date | undefined) => {
   }).format(receivedDate).replace(',', '');
 };
 
-export const minDate = new Date().toISOString().slice(0, 16);
+export const getDateForm = (date: Date) => {
+  return date.toLocaleString('uk-UK', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).replace(',', '');
+};
+
+export const getDateForInput = (date: Date) => {
+  return date.toLocaleString('sv-SE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};

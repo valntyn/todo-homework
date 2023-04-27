@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 
 import './InputField.scss';
 
 type PropTypes = {
-  values?: string | number;
+  values?: string | Date;
   handleChange: any;
   type: string;
   placeholder?: string;

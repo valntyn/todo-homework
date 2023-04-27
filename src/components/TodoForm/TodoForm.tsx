@@ -1,4 +1,6 @@
-import { FormEvent, memo, useState } from 'react';
+import {
+  ChangeEvent, FormEvent, memo, useEffect, useState,
+} from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TODO_REGEX } from '../../constants';
@@ -6,51 +8,52 @@ import { actions as modalActions } from '../../features/modal/itActive';
 import { actions as queryAction } from '../../features/todos/query';
 import { actions as todoActions } from '../../features/todos/todos';
 import { capitalize } from '../../helpers/capitalize';
-import { configureDate, minDate } from '../../helpers/dateConfigure';
+import { getDateForm, getDateForInput } from '../../helpers/dateConfigure';
 
 import './TodoForm.scss';
 import { InputField } from '../InputField';
 
 export const TodoForm = memo(() => {
-  const [dateStart, setDateStart] = useState('');
-  const [dateFinish, setDateFinish] = useState('');
+  const [dateStart, setDateStart] = useState<string | Date>('');
+  const [dateFinish, setDateFinish] = useState<string | Date>('');
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
+  const date = new Date();
 
   const { query } = useAppSelector((state) => state.query);
+  const { isActive } = useAppSelector((state) => state.isActive);
 
-  const clear = () => {
-    setDateStart('');
-    setDateFinish('');
-    dispatch(queryAction.setQuery(''));
-  };
+  useEffect(() => {
+    const tomorrowDate = new Date(date);
+
+    tomorrowDate.setDate(date.getDate() + 1);
+
+    setDateStart(getDateForInput(date));
+    setDateFinish(getDateForInput(tomorrowDate));
+  }, [isActive]);
 
   const handleDateTimeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     type: string,
   ) => {
-    const selectedDateTime = new Date(e.target.value);
-    const formattedDateTime = configureDate(selectedDateTime);
-
     setError('');
 
     switch (type) {
+      case 'title':
+        dispatch(queryAction.setQuery(e.target.value));
+        break;
+
       case 'start':
-        setDateStart(formattedDateTime);
+        setDateStart(e.target.value);
         break;
 
       case 'finish':
-        setDateFinish(formattedDateTime);
+        setDateFinish(e.target.value);
         break;
 
       default:
         break;
     }
-  };
-
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    dispatch(queryAction.setQuery(e.target.value));
   };
 
   const canSave = [query, dateFinish, dateStart].every(Boolean);
@@ -71,23 +74,24 @@ export const TodoForm = memo(() => {
     }
 
     const fixedTitle = capitalize(query).trim();
+    const fixedStartDate = getDateForm(new Date(dateStart));
+    const fixedFinishDate = getDateForm(new Date(dateFinish));
 
     const newTodo = {
       id: +new Date(),
       title: fixedTitle,
       completed: false,
-      createdAt: dateStart,
-      finishAt: dateFinish,
+      createdAt: fixedStartDate,
+      finishAt: fixedFinishDate,
     };
 
-    clear();
+    dispatch(queryAction.setQuery(''));
     dispatch(todoActions.addTodo(newTodo));
     dispatch(modalActions.setIsActive(false));
   };
 
   const hanldeClose = () => {
     setError('');
-    clear();
     dispatch(modalActions.setIsActive(false));
   };
 
@@ -99,21 +103,23 @@ export const TodoForm = memo(() => {
         values={query}
         placeholder="Write something to add"
         type="text"
-        handleChange={handleTitle}
+        handleChange={(e) => handleDateTimeChange(e, 'title')}
         id="title"
       />
       <InputField
         text="Select date and time when you will start:"
         type="datetime-local"
         handleChange={(e) => handleDateTimeChange(e, 'start')}
-        min={minDate}
+        min={getDateForInput(date)}
+        values={dateStart}
         id="dateStart"
       />
       <InputField
         text="Select date and time when you will finish:"
         type="datetime-local"
-        handleChange={(e) => handleDateTimeChange(e, 'finish')}
-        min={minDate}
+        handleChange={(e: ChangeEvent<HTMLInputElement>) => handleDateTimeChange(e, 'finish')}
+        min={getDateForInput(date)}
+        values={dateFinish}
         id="dateFinish"
       />
       <div className="form__box-button">
