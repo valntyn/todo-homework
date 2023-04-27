@@ -3,7 +3,7 @@ import React from 'react';
 import './InputField.scss';
 
 type PropTypes = {
-  values?: string | Date;
+  values?: string | date;
   handleChange: any;
   type: string;
   placeholder?: string;

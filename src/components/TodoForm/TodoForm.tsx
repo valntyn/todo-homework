@@ -1,5 +1,5 @@
 import {
-  ChangeEvent, FormEvent, memo, useEffect, useState,
+  FormEvent, memo, useEffect, useState,
 } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -24,6 +24,7 @@ export const TodoForm = memo(() => {
   const { isActive } = useAppSelector((state) => state.isActive);
 
   useEffect(() => {
+    setError('');
     const tomorrowDate = new Date(date);
 
     tomorrowDate.setDate(date.getDate() + 1);
@@ -62,7 +63,7 @@ export const TodoForm = memo(() => {
     e.preventDefault();
 
     if (!TODO_REGEX.test(query) && query) {
-      setError('Special symbols are not allowed');
+      setError('Only ENG letters and ,.!?');
 
       return;
     }
@@ -76,6 +77,19 @@ export const TodoForm = memo(() => {
     const fixedTitle = capitalize(query).trim();
     const fixedStartDate = getDateForm(new Date(dateStart));
     const fixedFinishDate = getDateForm(new Date(dateFinish));
+
+    if (+new Date(dateStart) > +new Date(dateFinish)) {
+      setError('Creation date can not be more than deadline');
+
+      return;
+    }
+
+    if (fixedFinishDate === 'Invalid Date'
+      || fixedStartDate === 'Invalid Date') {
+      setError('Please enter the correct year');
+
+      return;
+    }
 
     const newTodo = {
       id: +new Date(),
@@ -97,9 +111,9 @@ export const TodoForm = memo(() => {
 
   return (
     <form className="form" onSubmit={handleSubmitForm}>
-      <h1 className="form__title">Here, you can additional information</h1>
+      <h1 className="form__title">Here, you can add additional information</h1>
       <InputField
-        text="Fill the field for todo"
+        text="Fill the title for your todo"
         values={query}
         placeholder="Write something to add"
         type="text"
@@ -107,17 +121,16 @@ export const TodoForm = memo(() => {
         id="title"
       />
       <InputField
-        text="Select date and time when you will start:"
+        text="Select the start date and time of your todo:"
         type="datetime-local"
         handleChange={(e) => handleDateTimeChange(e, 'start')}
-        min={getDateForInput(date)}
         values={dateStart}
         id="dateStart"
       />
       <InputField
-        text="Select date and time when you will finish:"
+        text="Select date and time when you will finish your todo:"
         type="datetime-local"
-        handleChange={(e: ChangeEvent<HTMLInputElement>) => handleDateTimeChange(e, 'finish')}
+        handleChange={(e) => handleDateTimeChange(e, 'finish')}
         min={getDateForInput(date)}
         values={dateFinish}
         id="dateFinish"

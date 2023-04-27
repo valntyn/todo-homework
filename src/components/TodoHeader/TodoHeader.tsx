@@ -28,7 +28,7 @@ export const TodoHeader = () => {
     }
 
     if (!TODO_REGEX.test(query) && query) {
-      setError('Special symbols are not allowed');
+      setError('Only ENG letters and ,.!?');
 
       return;
     }
