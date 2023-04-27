@@ -1,0 +1,31 @@
+.todo {
+  position: relative;
+  font-size: 24px;
+  line-height: 50px;
+  overflow: hidden;
+  border-bottom: 1px solid #ededed;
+  display: grid;
+  
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &__title {
+    padding: 12px 24px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__date-box {
+    width: 100%;
+    position: absolute;
+    line-height: 16px;
+    font-size: 14px;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    color: #4d4d4d;
+    padding: 4px;
+  }
+}

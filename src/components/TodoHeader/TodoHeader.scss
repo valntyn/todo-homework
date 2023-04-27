@@ -1,0 +1,62 @@
+.header {
+  position: relative;
+
+  &__form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__new-todo {
+    width: 100%;
+    padding: 20px 60px 20px 40px;
+    overflow: hidden;
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: inherit;
+    color: inherit;
+    background: rgba(0, 0, 0, 0.01);
+    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+    border: none;
+
+    &::placeholder {
+      font-style: italic;
+      font-weight: 300;
+      color: #e6e6e6;
+    }
+  }
+
+  &__plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 16px;
+    top: 14px;
+    cursor: pointer;
+  }
+
+  &__error {
+    position: absolute;
+    right: 8px;
+    top: 2px;
+    font-size: 18px;
+    padding: 0 10px;
+    color: #409998;
+    animation-duration: .3s;
+    animation-name: fadeIn;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
