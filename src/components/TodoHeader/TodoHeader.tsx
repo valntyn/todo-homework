@@ -21,7 +21,7 @@ export const TodoHeader = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (!query) {
+    if (!query.trim()) {
       setError('Field should be filled');
 
       return;
