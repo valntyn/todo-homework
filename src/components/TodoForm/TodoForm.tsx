@@ -57,7 +57,7 @@ export const TodoForm = memo(() => {
     }
   };
 
-  const canSave = [query, dateFinish, dateStart].every(Boolean);
+  const canSave = [query.trim(), dateFinish, dateStart].every(Boolean);
 
   const handleSubmitForm = (e: FormEvent) => {
     e.preventDefault();
