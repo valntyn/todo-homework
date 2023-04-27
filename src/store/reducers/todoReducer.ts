@@ -1,4 +1,5 @@
 import { ITodo } from '../../types/Todo';
+import { AddTodoAction } from '../actions/todosActions';
 
 type TodoState = {
   todos: ITodo[] | [];
@@ -8,19 +9,7 @@ const initialState: TodoState = {
   todos: [],
 };
 
-type AddTodoAction = {
-  type: 'todo/add';
-  payload: ITodo;
-};
-
-const addTodo = (todo: ITodo): AddTodoAction => ({
-  type: 'todo/add',
-  payload: todo,
-});
-
 type Action = AddTodoAction;
-
-export const actions = { addTodo };
 
 const todoReducer = (state = initialState, action: Action): TodoState => {
   switch (action.type) {

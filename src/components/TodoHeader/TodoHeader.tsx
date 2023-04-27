@@ -2,20 +2,21 @@ import './TodoHeader.scss';
 
 import { FormEvent, KeyboardEvent, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ReactComponent as Plus } from '../../assets/plus.svg';
 import { TODO_REGEX } from '../../constants';
-import { actions as modalActions } from '../../features/modal/itActive';
-import { actions as queryActions } from '../../features/todos/query';
-import { actions as todoActions } from '../../features/todos/todos';
 import { capitalize } from '../../helpers/capitalize';
 import { dateByDefault } from '../../helpers/dateConfigure';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { actions as modalActions } from '../../store/actions/modalActions';
+import { actions as queryActions } from '../../store/actions/queryAction';
+import { actions as todoActions } from '../../store/actions/todosActions';
 import { Modal } from '../Modal';
 import { TodoForm } from '../TodoForm/TodoForm';
 
 export const TodoHeader = () => {
   const [error, setError] = useState('');
-  const { query } = useAppSelector(state => state.query);
+  const { query } = useAppSelector((state) => state.query);
   const dispatch = useAppDispatch();
 
   const handleSubmit = (e: FormEvent) => {

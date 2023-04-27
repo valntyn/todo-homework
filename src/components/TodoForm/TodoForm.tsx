@@ -2,14 +2,14 @@ import {
   FormEvent, memo, useEffect, useState,
 } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TODO_REGEX } from '../../constants';
-import { actions as modalActions } from '../../features/modal/itActive';
-import { actions as queryAction } from '../../features/todos/query';
-import { actions as todoActions } from '../../features/todos/todos';
 import { capitalize } from '../../helpers/capitalize';
 import { getDateForm, getDateForInput } from '../../helpers/dateConfigure';
-
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { actions as modalActions } from '../../store/actions/modalActions';
+import { actions as queryAction } from '../../store/actions/queryAction';
+import { actions as todoActions } from '../../store/actions/todosActions';
 import './TodoForm.scss';
 import { InputField } from '../InputField';
 
@@ -84,8 +84,10 @@ export const TodoForm = memo(() => {
       return;
     }
 
-    if (fixedFinishDate === 'Invalid Date'
-      || fixedStartDate === 'Invalid Date') {
+    if (
+      fixedFinishDate === 'Invalid Date'
+      || fixedStartDate === 'Invalid Date'
+    ) {
       setError('Please enter the correct year');
 
       return;
@@ -143,11 +145,7 @@ export const TodoForm = memo(() => {
           SAVE
         </button>
       </div>
-      {error && (
-        <p className="form__error">
-          {error}
-        </p>
-      )}
+      {error && <p className="form__error">{error}</p>}
     </form>
   );
 });

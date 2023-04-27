@@ -1,3 +1,5 @@
+import { IsActiveAction } from '../actions/modalActions';
+
 type IsActiveState = {
   isActive: boolean,
 };
@@ -5,18 +7,6 @@ type IsActiveState = {
 const initialState: IsActiveState = {
   isActive: false,
 };
-
-type IsActiveAction = {
-  type: 'status/change',
-  payload: boolean;
-};
-
-const setIsActive = (isActive: boolean): IsActiveAction => ({
-  type: 'status/change',
-  payload: isActive,
-});
-
-export const actions = { setIsActive };
 
 type Action = IsActiveAction;
 

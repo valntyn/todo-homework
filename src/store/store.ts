@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
 
-import isActiveReducer from '../features/modal/itActive';
-import queryReducer from '../features/todos/query';
-import todoReducer from '../features/todos/todos';
+import isActiveReducer from './reducers/modalReducer';
+import queryReducer from './reducers/queryReducer';
+import todoReducer from './reducers/todoReducer';
 
 const rootReducer = combineReducers({
   todos: todoReducer,
