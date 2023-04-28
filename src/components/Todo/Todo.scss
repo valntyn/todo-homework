@@ -1,22 +1,23 @@
 @import "../../styles/variables";
+@import "../../styles/mixins";
 
 .todo {
   position: relative;
   font-size: 24px;
   overflow: hidden;
-  line-height: 1.4em;
+  line-height: 1.8em;
   border-bottom: 1px solid $color-almost-white;
   display: grid;
-  grid-template-columns: 40px 1fr;
+  grid-template-columns: 40px 1fr 40px;
   justify-items: stretch;
-  padding: 16px 24px 24px 8px;
+  padding: 16px 18px 24px 8px;
   
   &:last-child {
     border-bottom: 0;
   }
 
   &__title {
-    padding-left: 8px;
+    padding: 2px 0 0 8px;
     word-break: break-all;
   }
 
@@ -24,7 +25,7 @@
     cursor: pointer;
     background-image: url('../../assets/undone.svg');
     background-repeat: no-repeat;
-    background-size: 75%;
+    background-size: 80%;
     background-position: center;
   }
 
@@ -56,5 +57,24 @@
     justify-content: space-between;
     color: $color-main-bg;
     padding: 0 12px;
+  }
+
+  &__buttons-box {
+    @include flex-settings
+  }
+
+  &__remove {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transition: 0.1s linear;
+
+    &:hover {
+      transform: scale(115%);
+    }
+  }
+
+  &__trash {
+    @include square-var(32px)
   }
 }
