@@ -13,7 +13,7 @@ export const TodoList = () => {
   return (
     <ul className="todolist">
       {todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} />
+        <Todo key={todo.id} {...todo} />
       ))}
     </ul>
   );

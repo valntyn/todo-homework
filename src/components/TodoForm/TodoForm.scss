@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .form {
   padding: 30px;
   display: flex;
@@ -22,7 +24,10 @@
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     transition: 0.1s linear;
-    background-color: #fff;
+    background-color: $color-white;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: $color-main-title;
 
     &:hover {
       border: 1px solid rgba(0, 0, 0, 1);
@@ -33,6 +38,6 @@
     position: absolute;
     top: 0;
     right: 0;
-    color: tomato;
+    color: $color-warning;
   }
 }

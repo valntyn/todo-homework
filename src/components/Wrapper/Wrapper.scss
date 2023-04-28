@@ -1,8 +1,10 @@
+@import "../../styles/variables";
+
 .wrapper {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 24px;
   font-weight: 300;
-  color: #4d4d4d;
+  color: $color-main-bg;
   margin: 0 auto;
   width: 560px;
 
@@ -11,12 +13,12 @@
     font-size: 100px;
     font-weight: 100;
     text-align: center;
-    color: #409998;
+    color: $color-main-title;
   }
 
   &__content {
     margin-bottom: 20px;
-    background: #fff;
+    background: $color-white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
       0 25px 50px 0 rgba(0, 0, 0, 0.1);
   } 

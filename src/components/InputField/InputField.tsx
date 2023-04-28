@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import './InputField.scss';
 
 type PropTypes = {
   values?: string | Date;
-  handleChange: any;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   type: string;
   placeholder?: string;
   text: string;

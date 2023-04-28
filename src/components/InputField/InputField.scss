@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .field {
   width: 50%;
   margin-bottom: 12px;
@@ -21,7 +23,7 @@
     top: -30px;
     color: tomato;
     font-size: 12px;
-    background-color: #fff;
+    background-color: $color-white;
     padding: 0 10px;
     animation-duration: .3s;
     animation-name: fadeIn;

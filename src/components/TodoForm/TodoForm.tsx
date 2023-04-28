@@ -57,7 +57,7 @@ export const TodoForm = memo(() => {
     }
   };
 
-  const canSave = [query.trim(), dateFinish, dateStart].every(Boolean);
+  const canSave = () => [query.trim(), dateFinish, dateStart].every(Boolean);
 
   const handleSubmitForm = (e: FormEvent) => {
     e.preventDefault();
@@ -68,7 +68,7 @@ export const TodoForm = memo(() => {
       return;
     }
 
-    if (!canSave) {
+    if (!canSave()) {
       setError('Every field should be filled');
 
       return;
@@ -139,10 +139,10 @@ export const TodoForm = memo(() => {
       />
       <div className="form__box-button">
         <button type="button" className="form__button" onClick={hanldeClose}>
-          CANCEL
+          cancel
         </button>
         <button type="submit" className="form__button">
-          SAVE
+          save
         </button>
       </div>
       {error && <p className="form__error">{error}</p>}

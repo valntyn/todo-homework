@@ -1,14 +1,12 @@
 import './Todo.scss';
 
-import { ITodo } from '../../types/Todo';
-
 type PropTypes = {
-  todo: ITodo;
+  title: string;
+  createdAt: string | Date;
+  finishAt: string | Date;
 };
 
-export const Todo: React.FC<PropTypes> = ({ todo }) => {
-  const { title, createdAt, finishAt } = todo;
-
+export const Todo: React.FC<PropTypes> = ({ title, createdAt, finishAt }) => {
   return (
     <li className="todo">
       <div className="todo__status" />

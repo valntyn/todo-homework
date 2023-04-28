@@ -1,11 +1,12 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
 .header {
   position: relative;
 
   &__form {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-settings
   }
 
   &__new-todo {
@@ -23,14 +24,12 @@
     &::placeholder {
       font-style: italic;
       font-weight: 300;
-      color: #e6e6e6;
+      color: $color-almost-white;
     }
   }
 
   &__plus {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-settings;
     height: 40px;
     width: 40px;
     position: absolute;
@@ -45,7 +44,7 @@
     top: 2px;
     font-size: 18px;
     padding: 0 10px;
-    color: #409998;
+    color: $color-main-title;
     animation-duration: .3s;
     animation-name: fadeIn;
   }

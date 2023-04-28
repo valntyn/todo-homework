@@ -1,8 +1,8 @@
+@import "../../styles/mixins";
+
 .todolist {
   &__empty {
     padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-settings;
   }
 }
