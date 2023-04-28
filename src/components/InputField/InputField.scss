@@ -1,0 +1,41 @@
+@import "../../styles/variables";
+
+.field {
+  width: 50%;
+  margin-bottom: 12px;
+  position: relative;
+
+  &__inp {
+    height: 40px;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding: 0 40px 0 20px;
+  
+    &:hover {
+      border: 1px solid rgba(0, 0, 0, 1);
+    }
+  }
+  
+  &__error {
+    position: absolute;
+    right: 10px;
+    top: -30px;
+    color: tomato;
+    font-size: 12px;
+    background-color: $color-white;
+    padding: 0 10px;
+    animation-duration: .3s;
+    animation-name: fadeIn;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

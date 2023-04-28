@@ -1,0 +1,33 @@
+@import "../../styles/variables";
+
+.todo {
+  position: relative;
+  font-size: 24px;
+  overflow: hidden;
+  line-height: 1.4em;
+  border-bottom: 1px solid $color-almost-white;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  justify-items: stretch;
+  
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &__title {
+    padding: 16px 24px 24px 0;
+    word-break: break-all;
+  }
+
+  &__date-box {
+    width: 100%;
+    position: absolute;
+    line-height: 16px;
+    font-size: 14px;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    color: $color-main-bg;
+    padding: 0 12px;
+  }
+}
