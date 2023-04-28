@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, memo } from 'react';
 
 import './InputField.scss';
 
@@ -12,7 +12,7 @@ type PropTypes = {
   min?: string
 };
 
-export const InputField: React.FC<PropTypes> = ({
+export const InputField: React.FC<PropTypes> = memo(({
   values,
   handleChange,
   type,
@@ -36,4 +36,4 @@ export const InputField: React.FC<PropTypes> = ({
       />
     </label>
   );
-};
+});

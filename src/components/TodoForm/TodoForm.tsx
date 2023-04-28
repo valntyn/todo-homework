@@ -1,5 +1,5 @@
 import {
-  FormEvent, memo, useEffect, useState,
+  FormEvent, memo, useCallback, useEffect, useState,
 } from 'react';
 
 import { TODO_REGEX } from '../../constants';
@@ -11,13 +11,14 @@ import { actions as modalActions } from '../../store/actions/modalActions';
 import { actions as queryAction } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import './TodoForm.scss';
+import { ErrorMessage } from '../../types/ErrorMessage';
 import { InputChange } from '../../types/InputChange';
 import { InputField } from '../InputField';
 
 export const TodoForm = memo(() => {
   const [dateStart, setDateStart] = useState<string | Date>('');
   const [dateFinish, setDateFinish] = useState<string | Date>('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(ErrorMessage.NONE);
   const dispatch = useAppDispatch();
   const date = new Date();
 
@@ -25,62 +26,71 @@ export const TodoForm = memo(() => {
   const { isActive } = useAppSelector((state) => state.isActive);
 
   useEffect(() => {
-    setError('');
     const tomorrowDate = new Date(date);
 
     tomorrowDate.setDate(date.getDate() + 1);
-
     setDateStart(getDateForInput(date));
     setDateFinish(getDateForInput(tomorrowDate));
   }, [isActive]);
 
-  const handleDateTimeChange = (
+  useEffect(() => {
+    const timeoutId = error
+    && setTimeout(() => setError(ErrorMessage.NONE), 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [error]);
+
+  const handleDateTimeChange = useCallback((
     e: React.ChangeEvent<HTMLInputElement>,
     type: InputChange,
   ) => {
-    setError('');
-
     switch (type) {
-      case InputChange.Title:
+      case InputChange.TITLE:
         dispatch(queryAction.setQuery(e.target.value));
         break;
 
-      case InputChange.Start:
+      case InputChange.START:
         setDateStart(e.target.value);
         break;
 
-      case InputChange.Finish:
+      case InputChange.FINISH:
         setDateFinish(e.target.value);
         break;
 
       default:
         break;
     }
-  };
+  }, [dispatch, dateFinish, dateStart]);
 
   const canSave = () => [query.trim(), dateFinish, dateStart].every(Boolean);
 
   const handleSubmitForm = (e: FormEvent) => {
     e.preventDefault();
 
+    const fixedTitle = capitalize(query).trim();
+    const fixedStartDate = getDateForm(new Date(dateStart));
+    const fixedFinishDate = getDateForm(new Date(dateFinish));
+
     if (!TODO_REGEX.test(query) && query) {
-      setError('Only ENG letters and ,.!?');
+      setError(ErrorMessage.INCORRECT);
 
       return;
     }
 
     if (!canSave()) {
-      setError('Every field should be filled');
+      setError(ErrorMessage.EMPTY);
 
       return;
     }
 
-    const fixedTitle = capitalize(query).trim();
-    const fixedStartDate = getDateForm(new Date(dateStart));
-    const fixedFinishDate = getDateForm(new Date(dateFinish));
-
     if (+new Date(dateStart) > +new Date(dateFinish)) {
-      setError('Creation date can not be more than deadline');
+      setError(ErrorMessage.DATE_GREATER);
+
+      return;
+    }
+
+    if (new Date(dateStart).getFullYear() < new Date().getFullYear()) {
+      setError(ErrorMessage.INCORRECT_DATE);
 
       return;
     }
@@ -89,7 +99,7 @@ export const TodoForm = memo(() => {
       fixedFinishDate === 'Invalid Date'
       || fixedStartDate === 'Invalid Date'
     ) {
-      setError('Please enter the correct year');
+      setError(ErrorMessage.INCORRECT_DATE);
 
       return;
     }
@@ -108,7 +118,6 @@ export const TodoForm = memo(() => {
   };
 
   const hanldeClose = () => {
-    setError('');
     dispatch(modalActions.setIsActive(false));
   };
 
@@ -120,20 +129,20 @@ export const TodoForm = memo(() => {
         values={query}
         placeholder="Write something to add"
         type="text"
-        handleChange={(e) => handleDateTimeChange(e, InputChange.Title)}
+        handleChange={(e) => handleDateTimeChange(e, InputChange.TITLE)}
         id="title"
       />
       <InputField
         text="Select the start date and time of your todo:"
         type="datetime-local"
-        handleChange={(e) => handleDateTimeChange(e, InputChange.Start)}
+        handleChange={(e) => handleDateTimeChange(e, InputChange.START)}
         values={dateStart}
         id="dateStart"
       />
       <InputField
         text="Select date and time when you will finish your todo:"
         type="datetime-local"
-        handleChange={(e) => handleDateTimeChange(e, InputChange.Finish)}
+        handleChange={(e) => handleDateTimeChange(e, InputChange.FINISH)}
         min={getDateForInput(date)}
         values={dateFinish}
         id="dateFinish"
