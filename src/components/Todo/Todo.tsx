@@ -26,13 +26,7 @@ export const Todo: React.FC<PropTypes> = ({
   };
 
   return (
-    <li className={classNames(
-      'todo',
-      {
-        completed,
-      },
-    )}
-    >
+    <li className={classNames('todo', { completed })}>
       <label className="todo__status-label" htmlFor={`${id}`}>
         <input
           id={`${id}`}
