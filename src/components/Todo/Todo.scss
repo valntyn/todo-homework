@@ -9,14 +9,41 @@
   display: grid;
   grid-template-columns: 40px 1fr;
   justify-items: stretch;
+  padding: 16px 24px 24px 8px;
   
   &:last-child {
     border-bottom: 0;
   }
 
   &__title {
-    padding: 16px 24px 24px 0;
+    padding-left: 8px;
     word-break: break-all;
+  }
+
+  &__status-label {
+    cursor: pointer;
+    background-image: url('../../assets/undone.svg');
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center;
+  }
+
+  &.completed &__status-label {
+    background-image: url('../../assets/done.svg');
+  }
+
+  &.completed &__title {
+    color: $color-crossed;
+    text-decoration: line-through;
+  }
+
+  &.completed &__date {
+    color: $color-crossed;
+    text-decoration: line-through;
+  }
+
+  &__status {
+    opacity: 0;
   }
 
   &__date-box {

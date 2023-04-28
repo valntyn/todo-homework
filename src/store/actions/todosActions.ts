@@ -10,4 +10,14 @@ const addTodo = (todo: ITodo): AddTodoAction => ({
   payload: todo,
 });
 
-export const actions = { addTodo };
+export type ToggleTodoAction = {
+  type: 'todo/toggle';
+  payload: number;
+};
+
+const toggleTodo = (id: number): ToggleTodoAction => ({
+  type: 'todo/toggle',
+  payload: id,
+});
+
+export const actions = { addTodo, toggleTodo };
