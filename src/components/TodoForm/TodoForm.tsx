@@ -11,6 +11,7 @@ import { actions as modalActions } from '../../store/actions/modalActions';
 import { actions as queryAction } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import './TodoForm.scss';
+import { InputChange } from '../../types/InputChange';
 import { InputField } from '../InputField';
 
 export const TodoForm = memo(() => {
@@ -35,20 +36,20 @@ export const TodoForm = memo(() => {
 
   const handleDateTimeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: string,
+    type: InputChange,
   ) => {
     setError('');
 
     switch (type) {
-      case 'title':
+      case InputChange.Title:
         dispatch(queryAction.setQuery(e.target.value));
         break;
 
-      case 'start':
+      case InputChange.Start:
         setDateStart(e.target.value);
         break;
 
-      case 'finish':
+      case InputChange.Finish:
         setDateFinish(e.target.value);
         break;
 
@@ -119,20 +120,20 @@ export const TodoForm = memo(() => {
         values={query}
         placeholder="Write something to add"
         type="text"
-        handleChange={(e) => handleDateTimeChange(e, 'title')}
+        handleChange={(e) => handleDateTimeChange(e, InputChange.Title)}
         id="title"
       />
       <InputField
         text="Select the start date and time of your todo:"
         type="datetime-local"
-        handleChange={(e) => handleDateTimeChange(e, 'start')}
+        handleChange={(e) => handleDateTimeChange(e, InputChange.Start)}
         values={dateStart}
         id="dateStart"
       />
       <InputField
         text="Select date and time when you will finish your todo:"
         type="datetime-local"
-        handleChange={(e) => handleDateTimeChange(e, 'finish')}
+        handleChange={(e) => handleDateTimeChange(e, InputChange.Finish)}
         min={getDateForInput(date)}
         values={dateFinish}
         id="dateFinish"
