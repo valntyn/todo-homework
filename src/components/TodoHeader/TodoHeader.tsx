@@ -1,6 +1,8 @@
 import './TodoHeader.scss';
 
-import { FormEvent, KeyboardEvent, useState } from 'react';
+import {
+  FormEvent, KeyboardEvent, useEffect, useState,
+} from 'react';
 
 import { ReactComponent as Plus } from '../../assets/plus.svg';
 import { TODO_REGEX } from '../../constants';
@@ -11,25 +13,33 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { actions as modalActions } from '../../store/actions/modalActions';
 import { actions as queryActions } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
+import { ErrorMessage } from '../../types/ErrorMessage';
 import { Modal } from '../Modal';
 import { TodoForm } from '../TodoForm/TodoForm';
 
 export const TodoHeader = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState(ErrorMessage.NONE);
   const { query } = useAppSelector((state) => state.query);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const timeoutId = error
+    && setTimeout(() => setError(ErrorMessage.NONE), 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [error]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (!query.trim()) {
-      setError('Field should be filled');
+      setError(ErrorMessage.TITLE);
 
       return;
     }
 
     if (!TODO_REGEX.test(query) && query) {
-      setError('Only ENG letters and ,.!?');
+      setError(ErrorMessage.INCORRECT);
 
       return;
     }
@@ -49,7 +59,7 @@ export const TodoHeader = () => {
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
+    setError(ErrorMessage.NONE);
     dispatch(queryActions.setQuery(e.target.value));
   };
 
