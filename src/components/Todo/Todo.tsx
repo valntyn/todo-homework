@@ -7,12 +7,11 @@ type PropTypes = {
 };
 
 export const Todo: React.FC<PropTypes> = ({ todo }) => {
-  const {
-    title, createdAt, finishAt,
-  } = todo;
+  const { title, createdAt, finishAt } = todo;
 
   return (
     <li className="todo">
+      <div className="todo__status" />
       <span className="todo__title">{title}</span>
       <div className="todo__date-box">
         <p>{`Created at: ${createdAt}`}</p>
