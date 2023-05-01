@@ -1,5 +1,9 @@
 import { ITodo } from '../../types/Todo';
-import { AddTodoAction, ToggleTodoAction } from '../actions/todosActions';
+import {
+  AddTodoAction,
+  DeleteTodoAction,
+  ToggleTodoAction,
+} from '../actions/todosActions';
 
 type TodoState = {
   todos: ITodo[] | [];
@@ -9,7 +13,7 @@ const initialState: TodoState = {
   todos: [],
 };
 
-type Action = AddTodoAction | ToggleTodoAction;
+type Action = AddTodoAction | ToggleTodoAction | DeleteTodoAction;
 
 const todoReducer = (state = initialState, action: Action): TodoState => {
   switch (action.type) {
@@ -33,6 +37,13 @@ const todoReducer = (state = initialState, action: Action): TodoState => {
           };
         }),
       };
+
+    case 'todo/delete':
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
+      };
+
     default:
       return state;
   }

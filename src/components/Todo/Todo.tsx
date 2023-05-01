@@ -1,8 +1,10 @@
 import classNames from 'classnames';
 
-import './Todo.scss';
+import { ReactComponent as Trash } from '../../assets/trash.svg';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { actions as todoActions } from '../../store/actions/todosActions';
+
+import './Todo.scss';
 
 type PropTypes = {
   title: string;
@@ -25,6 +27,10 @@ export const Todo: React.FC<PropTypes> = ({
     dispatch(todoActions.toggleTodo(currentId));
   };
 
+  const handleDeleteTodo = (currentId: number) => () => {
+    dispatch(todoActions.deleteTodo(currentId));
+  };
+
   return (
     <li className={classNames('todo', { completed })}>
       <label className="todo__status-label" htmlFor={`${id}`}>
@@ -45,6 +51,15 @@ export const Todo: React.FC<PropTypes> = ({
         <p className={classNames('todo__date', { completed })}>
           {`Should be done untill: ${finishAt}`}
         </p>
+      </div>
+      <div className="todo__buttons-box">
+        <button
+          type="button"
+          className="todo__remove"
+          onClick={handleDeleteTodo(id)}
+        >
+          <Trash className="todo__trash" />
+        </button>
       </div>
     </li>
   );
