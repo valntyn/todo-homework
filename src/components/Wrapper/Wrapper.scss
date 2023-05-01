@@ -8,6 +8,8 @@
   color: $color-main-bg;
   margin: 0 auto;
   padding: 0 40px;
+  @include flex-settings;
+  flex-direction: column;
 
   @include onTablet {
     padding: 0 120px;
@@ -46,7 +48,7 @@
       0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
     @include onDesktopLarge {
-      width: 560px;
+      max-width: 560px;
     }
   } 
 }
