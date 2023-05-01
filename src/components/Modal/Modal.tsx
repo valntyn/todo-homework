@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 
 import './Modal.scss';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 type PropTypes = {
   isActive: boolean;
@@ -16,8 +15,6 @@ export const Modal: React.FC<PropTypes> = memo(({
   setIsActive,
   isActive,
 }) => {
-  const dispatch = useAppDispatch();
-
   const modalRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -36,7 +33,7 @@ export const Modal: React.FC<PropTypes> = memo(({
 
   const handleClick = useCallback(() => {
     setIsActive(false);
-  }, [dispatch, setIsActive]);
+  }, [setIsActive]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
