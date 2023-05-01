@@ -2,35 +2,51 @@
 @import "../../styles/mixins";
 
 .todo {
-  position: relative;
-  font-size: 24px;
-  overflow: hidden;
-  line-height: 1.8em;
   border-bottom: 1px solid $color-almost-white;
-  display: grid;
-  grid-template-columns: 40px 1fr 80px;
-  justify-items: stretch;
-  padding: 16px 8px 24px 8px;
-  
+
+  &__content {
+    position: relative;
+    font-size: 24px;
+    overflow: hidden;
+    line-height: 1.8em;
+    display: grid;
+    grid-template-columns: 40px 1fr 60px;
+    justify-items: stretch;
+    padding: 16px 8px;
+
+    @include onTablet {
+      grid-template-columns: 40px 1fr 80px;
+    }
+  }
+
   &:last-child {
     border-bottom: 0;
   }
 
   &__title {
+    font-size: 14px;
     padding: 2px 0 0 8px;
     word-break: break-all;
+
+    @include onTablet {
+      font-size: inherit;
+    }
   }
 
   &__status-label {
     cursor: pointer;
-    background-image: url('../../assets/undone.svg');
+    background-image: url("../../assets/undone.svg");
     background-repeat: no-repeat;
-    background-size: 80%;
+    background-size: 60%;
     background-position: center;
+
+    @include onTablet {
+      background-size: 80%;
+    }
   }
 
   &.completed &__status-label {
-    background-image: url('../../assets/done.svg');
+    background-image: url("../../assets/done.svg");
   }
 
   &.completed &__title {
@@ -49,14 +65,17 @@
 
   &__date-box {
     width: 100%;
-    position: absolute;
-    line-height: 16px;
-    font-size: 14px;
-    bottom: 0;
+    font-size: 10px;
     display: flex;
     justify-content: space-between;
     color: $color-main-bg;
-    padding: 0 12px;
+    padding: 0 4px;
+    border-top: 1px solid $color-almost-white;
+
+    @include onTablet {
+      font-size: 14px;
+      padding: 0 8px;
+    }
   }
 
   &__buttons-box {
@@ -81,6 +100,10 @@
   }
 
   &__svg {
-    @include square-var(24px)
+    @include square-var(16px);
+
+    @include onTablet {
+      @include square-var(24px);
+    }
   }
 }

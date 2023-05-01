@@ -11,7 +11,7 @@ import { Modal } from '../Modal';
 import { TodoForm } from '../TodoForm';
 
 type PropTypes = {
-  todo: ITodo,
+  todo: ITodo;
 };
 
 export const Todo: React.FC<PropTypes> = ({ todo }) => {
@@ -19,11 +19,7 @@ export const Todo: React.FC<PropTypes> = ({ todo }) => {
   const dispatch = useAppDispatch();
 
   const {
-    finishAt,
-    createdAt,
-    title,
-    id,
-    completed,
+    finishAt, createdAt, title, id, completed,
   } = todo;
 
   const handleToggleTodo = (currentId: number) => () => {
@@ -45,17 +41,34 @@ export const Todo: React.FC<PropTypes> = ({ todo }) => {
   return (
     <>
       <li className={classNames('todo', { completed })}>
-        <label className="todo__status-label" htmlFor={`${id}`}>
-          <input
-            id={`${id}`}
-            type="checkbox"
-            className="todo__status"
-            onChange={handleToggleTodo(id)}
-            checked={completed}
-          />
-        </label>
-
-        <span className="todo__title">{title}</span>
+        <div className="todo__content">
+          <label className="todo__status-label" htmlFor={`${id}`}>
+            <input
+              id={`${id}`}
+              type="checkbox"
+              className="todo__status"
+              onChange={handleToggleTodo(id)}
+              checked={completed}
+            />
+          </label>
+          <span className="todo__title">{title}</span>
+          <div className="todo__buttons-box">
+            <button
+              type="button"
+              className="todo__button"
+              onClick={handleOpenForm}
+            >
+              <Pencil className="todo__svg" />
+            </button>
+            <button
+              type="button"
+              className="todo__button"
+              onClick={handleDeleteTodo(id)}
+            >
+              <Trash className="todo__svg" />
+            </button>
+          </div>
+        </div>
         <div className="todo__date-box">
           <p className={classNames('todo__date', { completed })}>
             {`Created at: ${createdAt}`}
@@ -63,22 +76,6 @@ export const Todo: React.FC<PropTypes> = ({ todo }) => {
           <p className={classNames('todo__date', { completed })}>
             {`Should be done untill: ${finishAt}`}
           </p>
-        </div>
-        <div className="todo__buttons-box">
-          <button
-            type="button"
-            className="todo__button"
-            onClick={handleOpenForm}
-          >
-            <Pencil className="todo__svg" />
-          </button>
-          <button
-            type="button"
-            className="todo__button"
-            onClick={handleDeleteTodo(id)}
-          >
-            <Trash className="todo__svg" />
-          </button>
         </div>
       </li>
       {isActive && (
