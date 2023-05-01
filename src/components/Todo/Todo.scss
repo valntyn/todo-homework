@@ -8,9 +8,9 @@
   line-height: 1.8em;
   border-bottom: 1px solid $color-almost-white;
   display: grid;
-  grid-template-columns: 40px 1fr 40px;
+  grid-template-columns: 40px 1fr 80px;
   justify-items: stretch;
-  padding: 16px 18px 24px 8px;
+  padding: 16px 8px 24px 8px;
   
   &:last-child {
     border-bottom: 0;
@@ -60,10 +60,11 @@
   }
 
   &__buttons-box {
-    @include flex-settings
+    @include flex-settings;
+    gap: 4px;
   }
 
-  &__remove {
+  &__button {
     border: 0;
     background: none;
     cursor: pointer;
@@ -72,9 +73,14 @@
     &:hover {
       transform: scale(115%);
     }
+
+    &:active {
+      border: none;
+      outline: none;
+    }
   }
 
-  &__trash {
-    @include square-var(32px)
+  &__svg {
+    @include square-var(24px)
   }
 }

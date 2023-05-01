@@ -1,7 +1,11 @@
 import './TodoHeader.scss';
 
 import {
-  FormEvent, KeyboardEvent, useEffect, useState,
+  FormEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useState,
 } from 'react';
 
 import { ReactComponent as Plus } from '../../assets/plus.svg';
@@ -10,21 +14,22 @@ import { capitalize } from '../../helpers/capitalize';
 import { dateByDefault } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { actions as modalActions } from '../../store/actions/modalActions';
 import { actions as queryActions } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import { ErrorMessage } from '../../types/ErrorMessage';
 import { Modal } from '../Modal';
-import { TodoForm } from '../TodoForm/TodoForm';
+import { TodoForm } from '../TodoForm';
 
 export const TodoHeader = () => {
+  const [isActive, setIsActive] = useState(false);
   const [error, setError] = useState(ErrorMessage.NONE);
-  const { query } = useAppSelector((state) => state.query);
   const dispatch = useAppDispatch();
 
+  const { query } = useAppSelector(state => state.query);
+
   useEffect(() => {
-    const timeoutId = error
-    && setTimeout(() => setError(ErrorMessage.NONE), 1000);
+    const timeoutId
+      = error && setTimeout(() => setError(ErrorMessage.NONE), 1000);
 
     return () => clearTimeout(timeoutId);
   }, [error]);
@@ -54,8 +59,8 @@ export const TodoHeader = () => {
       finishAt: dateByDefault(1),
     };
 
-    dispatch(todoActions.addTodo(newTodo));
     dispatch(queryActions.setQuery(''));
+    dispatch(todoActions.addTodo(newTodo));
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,8 +75,12 @@ export const TodoHeader = () => {
   };
 
   const handleOpenForm = () => {
-    dispatch(modalActions.setIsActive(true));
+    setIsActive(true);
   };
+
+  const handleCloseForm = useCallback(() => {
+    setIsActive(false);
+  }, []);
 
   return (
     <header className="header">
@@ -89,9 +98,11 @@ export const TodoHeader = () => {
           <Plus onClick={handleOpenForm} />
         </div>
       </form>
-      <Modal>
-        <TodoForm />
-      </Modal>
+      {isActive && (
+        <Modal isActive={isActive} setIsActive={setIsActive}>
+          <TodoForm onClose={handleCloseForm} />
+        </Modal>
+      )}
     </header>
   );
 };

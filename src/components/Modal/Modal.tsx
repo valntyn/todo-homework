@@ -1,30 +1,60 @@
-import classNames from 'classnames';
-import React, { memo } from 'react';
+import React, {
+  memo, useCallback, useEffect, useRef,
+} from 'react';
 
 import './Modal.scss';
-
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { actions } from '../../store/actions/modalActions';
 
 type PropTypes = {
+  isActive: boolean;
+  setIsActive: (active: boolean) => void;
   children: React.ReactNode;
 };
 
-export const Modal: React.FC<PropTypes> = memo(({ children }) => {
+export const Modal: React.FC<PropTypes> = memo(({
+  children,
+  setIsActive,
+  isActive,
+}) => {
   const dispatch = useAppDispatch();
-  const { isActive } = useAppSelector((state) => state.isActive);
 
-  const handleClick = () => {
-    dispatch(actions.setIsActive(false));
-  };
+  const modalRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const modalElement = modalRef.current;
+
+    if (isActive && modalElement) {
+      const timeoutId = setTimeout(() => {
+        modalElement.classList.add('modal--active');
+      }, 10);
+
+      return () => clearTimeout(timeoutId);
+    }
+
+    return () => {};
+  }, [isActive]);
+
+  const handleClick = useCallback(() => {
+    setIsActive(false);
+  }, [dispatch, setIsActive]);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleClick();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleClick]);
 
   return (
     <button
       type="button"
-      className={classNames('modal', {
-        'modal--active': isActive,
-      })}
+      className="modal"
+      ref={modalRef}
       onClick={handleClick}
     >
       <button

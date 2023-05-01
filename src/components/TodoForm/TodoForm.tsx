@@ -4,74 +4,90 @@ import {
 
 import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
-import { getDateForm, getDateForInput } from '../../helpers/dateConfigure';
+import {
+  getDateForm, getDateForInput, convertToDate,
+} from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { actions as modalActions } from '../../store/actions/modalActions';
-import { actions as queryAction } from '../../store/actions/queryAction';
+import { actions as queryActions } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import './TodoForm.scss';
 import { ErrorMessage } from '../../types/ErrorMessage';
 import { InputChange } from '../../types/InputChange';
+import { ITodo } from '../../types/Todo';
 import { InputField } from '../InputField';
 
-export const TodoForm = memo(() => {
+type PropTypes = {
+  onClose: () => void;
+  selectedTodo?: ITodo;
+};
+
+export const TodoForm: React.FC<PropTypes> = memo(({
+  onClose, selectedTodo,
+}) => {
+  const [value, setValue] = useState('');
   const [dateStart, setDateStart] = useState<string | Date>('');
   const [dateFinish, setDateFinish] = useState<string | Date>('');
   const [error, setError] = useState(ErrorMessage.NONE);
+
   const dispatch = useAppDispatch();
   const date = new Date();
 
   const { query } = useAppSelector((state) => state.query);
-  const { isActive } = useAppSelector((state) => state.isActive);
 
   useEffect(() => {
-    const tomorrowDate = new Date(date);
+    if (selectedTodo) {
+      setDateStart(convertToDate(selectedTodo.createdAt));
+      setDateFinish(convertToDate(selectedTodo.finishAt));
+      setValue(selectedTodo.title);
+    } else {
+      const tomorrowDate = new Date(date);
 
-    tomorrowDate.setDate(date.getDate() + 1);
-    setDateStart(getDateForInput(date));
-    setDateFinish(getDateForInput(tomorrowDate));
-  }, [isActive]);
+      tomorrowDate.setDate(date.getDate() + 1);
+      setDateStart(getDateForInput(date));
+      setDateFinish(getDateForInput(tomorrowDate));
+      setValue(query);
+    }
+  }, [selectedTodo]);
 
   useEffect(() => {
-    const timeoutId = error
-    && setTimeout(() => setError(ErrorMessage.NONE), 1000);
+    const timeoutId
+      = error && setTimeout(() => setError(ErrorMessage.NONE), 1000);
 
     return () => clearTimeout(timeoutId);
   }, [error]);
 
-  const handleDateTimeChange = useCallback((
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: InputChange,
-  ) => {
-    switch (type) {
-      case InputChange.TITLE:
-        dispatch(queryAction.setQuery(e.target.value));
-        break;
+  const handleDateTimeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, type: InputChange) => {
+      switch (type) {
+        case InputChange.TITLE:
+          setValue(e.target.value);
+          break;
 
-      case InputChange.START:
-        setDateStart(e.target.value);
-        break;
+        case InputChange.START:
+          setDateStart(e.target.value);
+          break;
 
-      case InputChange.FINISH:
-        setDateFinish(e.target.value);
-        break;
+        case InputChange.FINISH:
+          setDateFinish(e.target.value);
+          break;
 
-      default:
-        break;
-    }
-  }, [dispatch, dateFinish, dateStart]);
+        default:
+          break;
+      }
+    }, [],
+  );
 
-  const canSave = () => [query.trim(), dateFinish, dateStart].every(Boolean);
+  const canSave = () => [value.trim(), dateFinish, dateStart].every(Boolean);
 
   const handleSubmitForm = (e: FormEvent) => {
     e.preventDefault();
 
-    const fixedTitle = capitalize(query).trim();
+    const fixedTitle = capitalize(value).trim();
     const fixedStartDate = getDateForm(new Date(dateStart));
     const fixedFinishDate = getDateForm(new Date(dateFinish));
 
-    if (!TODO_REGEX.test(query) && query) {
+    if (!TODO_REGEX.test(value) && value) {
       setError(ErrorMessage.INCORRECT);
 
       return;
@@ -83,20 +99,15 @@ export const TodoForm = memo(() => {
       return;
     }
 
-    if (+new Date(dateStart) > +new Date(dateFinish)) {
+    if (new Date(dateStart).getFullYear() < new Date().getFullYear()) {
       setError(ErrorMessage.DATE_GREATER);
 
       return;
     }
 
-    if (new Date(dateStart).getFullYear() < new Date().getFullYear()) {
-      setError(ErrorMessage.INCORRECT_DATE);
-
-      return;
-    }
-
     if (
-      fixedFinishDate === 'Invalid Date'
+      +new Date(dateStart) > +new Date(dateFinish)
+      || fixedFinishDate === 'Invalid Date'
       || fixedStartDate === 'Invalid Date'
     ) {
       setError(ErrorMessage.INCORRECT_DATE);
@@ -104,29 +115,36 @@ export const TodoForm = memo(() => {
       return;
     }
 
-    const newTodo = {
-      id: +new Date(),
+    const todo = {
+      id: selectedTodo ? selectedTodo.id : +new Date(),
       title: fixedTitle,
-      completed: false,
+      completed: selectedTodo ? selectedTodo.completed : false,
       createdAt: fixedStartDate,
       finishAt: fixedFinishDate,
     };
 
-    dispatch(queryAction.setQuery(''));
-    dispatch(todoActions.addTodo(newTodo));
-    dispatch(modalActions.setIsActive(false));
+    const action = selectedTodo ? todoActions.updateTodo : todoActions.addTodo;
+
+    dispatch(action(todo));
+    dispatch(queryActions.setQuery(''));
+    onClose();
   };
 
   const hanldeClose = () => {
-    dispatch(modalActions.setIsActive(false));
+    onClose();
+    setValue('');
   };
 
   return (
     <form className="form" onSubmit={handleSubmitForm}>
-      <h1 className="form__title">Here, you can add additional information</h1>
+      <h1 className="form__title">
+        {selectedTodo
+          ? 'Edit form'
+          : 'Here, you can add additional information'}
+      </h1>
       <InputField
-        text="Fill the title for your todo"
-        values={query}
+        text={selectedTodo ? 'You can change the title' : 'Fill the title'}
+        values={value}
         placeholder="Write something to add"
         type="text"
         handleChange={(e) => handleDateTimeChange(e, InputChange.TITLE)}

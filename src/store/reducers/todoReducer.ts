@@ -3,6 +3,7 @@ import {
   AddTodoAction,
   DeleteTodoAction,
   ToggleTodoAction,
+  UpdateTodoAction,
 } from '../actions/todosActions';
 
 type TodoState = {
@@ -13,7 +14,11 @@ const initialState: TodoState = {
   todos: [],
 };
 
-type Action = AddTodoAction | ToggleTodoAction | DeleteTodoAction;
+type Action =
+  | AddTodoAction
+  | ToggleTodoAction
+  | DeleteTodoAction
+  | UpdateTodoAction;
 
 const todoReducer = (state = initialState, action: Action): TodoState => {
   switch (action.type) {
@@ -42,6 +47,20 @@ const todoReducer = (state = initialState, action: Action): TodoState => {
       return {
         ...state,
         todos: state.todos.filter((todo) => todo.id !== action.payload),
+      };
+
+    case 'todo/update':
+      return {
+        ...state,
+        todos: state.todos.map((todo) => {
+          if (todo.id !== action.payload.id) {
+            return todo;
+          }
+
+          return {
+            ...action.payload,
+          };
+        }),
       };
 
     default:

@@ -30,4 +30,16 @@ const deleteTodo = (id: number): DeleteTodoAction => ({
   payload: id,
 });
 
-export const actions = { addTodo, toggleTodo, deleteTodo };
+export type UpdateTodoAction = {
+  type: 'todo/update';
+  payload: ITodo;
+};
+
+const updateTodo = (todo: ITodo): UpdateTodoAction => ({
+  type: 'todo/update',
+  payload: todo,
+});
+
+export const actions = {
+  addTodo, toggleTodo, deleteTodo, updateTodo,
+};
