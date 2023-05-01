@@ -3,7 +3,7 @@ import React, { ChangeEvent, memo } from 'react';
 import './InputField.scss';
 
 type PropTypes = {
-  values?: any;
+  values?: string | Date;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   type: string;
   placeholder?: string;
