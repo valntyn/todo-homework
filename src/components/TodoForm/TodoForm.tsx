@@ -99,14 +99,14 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       return;
     }
 
-    if (new Date(dateStart).getFullYear() < new Date().getFullYear()) {
+    if (+new Date(dateStart) > +new Date(dateFinish)) {
       setError(ErrorMessage.DATE_GREATER);
 
       return;
     }
 
     if (
-      +new Date(dateStart) > +new Date(dateFinish)
+      new Date(dateStart).getFullYear() < new Date().getFullYear()
       || fixedFinishDate === 'Invalid Date'
       || fixedStartDate === 'Invalid Date'
     ) {
