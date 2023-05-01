@@ -115,6 +115,10 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       return;
     }
 
+    if (!selectedTodo) {
+      dispatch(queryActions.setQuery(''));
+    }
+
     const todo = {
       id: selectedTodo ? selectedTodo.id : +new Date(),
       title: fixedTitle,
@@ -126,7 +130,6 @@ export const TodoForm: React.FC<PropTypes> = memo(({
     const action = selectedTodo ? todoActions.updateTodo : todoActions.addTodo;
 
     dispatch(action(todo));
-    dispatch(queryActions.setQuery(''));
     onClose();
   };
 

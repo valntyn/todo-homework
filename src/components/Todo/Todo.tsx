@@ -14,9 +14,7 @@ type PropTypes = {
   todo: ITodo,
 };
 
-export const Todo: React.FC<PropTypes> = ({
-  todo,
-}) => {
+export const Todo: React.FC<PropTypes> = ({ todo }) => {
   const [isActive, setIsActive] = useState(false);
   const dispatch = useAppDispatch();
 
