@@ -19,8 +19,16 @@
     padding: 10px;
     border-radius: 4px;
     background-color: $color-white;
-    width: 50vw;
+    width: 90vw;
     border: none;
+
+    @include onTablet {
+      width: 80vw;
+    }
+
+    @include onDesktop {
+      width: 40vw;
+    }
   }
 
   &--active {

@@ -3,6 +3,11 @@
 .todolist {
   &__empty {
     padding: 20px;
+    font-size: 14px;
     @include flex-settings;
+
+    @include onTablet {
+      font-size: inherit;
+    }
   }
 }
