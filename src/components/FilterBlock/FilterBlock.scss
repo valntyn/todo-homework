@@ -16,6 +16,7 @@
     border: none;
     cursor: pointer;
     transition: 0.1s linear;
+    border: 2px solid $color-almost-white;
 
     &:hover {
       color: $color-main-bg;
