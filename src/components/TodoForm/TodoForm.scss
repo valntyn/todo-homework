@@ -1,4 +1,5 @@
 @import "../../styles/variables";
+@import "../../styles/mixins";
 
 .form {
   padding: 30px;
@@ -10,7 +11,9 @@
   position: relative;
 
   &__title {
+    font-size: inherit;
     margin-bottom: 32px;
+    text-align: center;
   }
 
   &__box-button {

@@ -15,7 +15,7 @@ type PropTypes = {
 };
 
 export const Todo: React.FC<PropTypes> = ({ todo }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false);
   const dispatch = useAppDispatch();
 
   const {
@@ -31,11 +31,11 @@ export const Todo: React.FC<PropTypes> = ({ todo }) => {
   };
 
   const handleOpenForm = () => {
-    setIsActive(true);
+    setIsModalActive(true);
   };
 
   const handleCloseForm = useCallback(() => {
-    setIsActive(false);
+    setIsModalActive(false);
   }, []);
 
   return (
@@ -78,8 +78,11 @@ export const Todo: React.FC<PropTypes> = ({ todo }) => {
           </p>
         </div>
       </li>
-      {isActive && (
-        <Modal isActive={isActive} setIsActive={setIsActive}>
+      {isModalActive && (
+        <Modal
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        >
           <TodoForm onClose={handleCloseForm} selectedTodo={todo} />
         </Modal>
       )}

@@ -8,8 +8,6 @@ import {
   getDateForm, getDateForInput, convertToDate,
 } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { actions as queryActions } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import './TodoForm.scss';
 import { ErrorMessage } from '../../types/ErrorMessage';
@@ -20,10 +18,12 @@ import { InputField } from '../InputField';
 type PropTypes = {
   onClose: () => void;
   selectedTodo?: ITodo;
+  setQuery?: (query: string) => void;
+  query?: string,
 };
 
 export const TodoForm: React.FC<PropTypes> = memo(({
-  onClose, selectedTodo,
+  onClose, selectedTodo, query, setQuery,
 }) => {
   const [value, setValue] = useState('');
   const [dateStart, setDateStart] = useState<string | Date>('');
@@ -32,8 +32,6 @@ export const TodoForm: React.FC<PropTypes> = memo(({
 
   const dispatch = useAppDispatch();
   const date = new Date();
-
-  const { query } = useAppSelector((state) => state.query);
 
   useEffect(() => {
     if (selectedTodo) {
@@ -46,7 +44,7 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       tomorrowDate.setDate(date.getDate() + 1);
       setDateStart(getDateForInput(date));
       setDateFinish(getDateForInput(tomorrowDate));
-      setValue(query);
+      setValue(query!);
     }
   }, [selectedTodo]);
 
@@ -115,8 +113,8 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       return;
     }
 
-    if (!selectedTodo) {
-      dispatch(queryActions.setQuery(''));
+    if (!selectedTodo && query) {
+      setQuery?.('');
     }
 
     const todo = {

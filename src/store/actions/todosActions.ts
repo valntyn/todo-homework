@@ -1,6 +1,6 @@
 import { ITodo } from '../../types/Todo';
 
-export type AddTodoAction = {
+type AddTodoAction = {
   type: 'todo/add';
   payload: ITodo;
 };
@@ -10,7 +10,7 @@ const addTodo = (todo: ITodo): AddTodoAction => ({
   payload: todo,
 });
 
-export type ToggleTodoAction = {
+type ToggleTodoAction = {
   type: 'todo/toggle';
   payload: number;
 };
@@ -20,7 +20,7 @@ const toggleTodo = (id: number): ToggleTodoAction => ({
   payload: id,
 });
 
-export type DeleteTodoAction = {
+type DeleteTodoAction = {
   type: 'todo/delete';
   payload: number;
 };
@@ -30,7 +30,7 @@ const deleteTodo = (id: number): DeleteTodoAction => ({
   payload: id,
 });
 
-export type UpdateTodoAction = {
+type UpdateTodoAction = {
   type: 'todo/update';
   payload: ITodo;
 };
@@ -39,6 +39,12 @@ const updateTodo = (todo: ITodo): UpdateTodoAction => ({
   type: 'todo/update',
   payload: todo,
 });
+
+export type TodoAction =
+  | AddTodoAction
+  | ToggleTodoAction
+  | DeleteTodoAction
+  | UpdateTodoAction;
 
 export const actions = {
   addTodo, toggleTodo, deleteTodo, updateTodo,

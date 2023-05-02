@@ -1,10 +1,5 @@
 import { ITodo } from '../../types/Todo';
-import {
-  AddTodoAction,
-  DeleteTodoAction,
-  ToggleTodoAction,
-  UpdateTodoAction,
-} from '../actions/todosActions';
+import { TodoAction } from '../actions/todosActions';
 
 type TodoState = {
   todos: ITodo[] | [];
@@ -14,13 +9,7 @@ const initialState: TodoState = {
   todos: [],
 };
 
-type Action =
-  | AddTodoAction
-  | ToggleTodoAction
-  | DeleteTodoAction
-  | UpdateTodoAction;
-
-const todoReducer = (state = initialState, action: Action): TodoState => {
+const todoReducer = (state = initialState, action: TodoAction): TodoState => {
   switch (action.type) {
     case 'todo/add':
       return {

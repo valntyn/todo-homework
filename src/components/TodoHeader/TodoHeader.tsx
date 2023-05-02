@@ -13,19 +13,16 @@ import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
 import { dateByDefault } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { actions as queryActions } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import { ErrorMessage } from '../../types/ErrorMessage';
 import { Modal } from '../Modal';
 import { TodoForm } from '../TodoForm';
 
 export const TodoHeader = () => {
-  const [isActive, setIsActive] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [query, setQuery] = useState('');
   const [error, setError] = useState(ErrorMessage.NONE);
   const dispatch = useAppDispatch();
-
-  const { query } = useAppSelector(state => state.query);
 
   useEffect(() => {
     const timeoutId
@@ -59,13 +56,13 @@ export const TodoHeader = () => {
       finishAt: dateByDefault(1),
     };
 
-    dispatch(queryActions.setQuery(''));
+    setQuery('');
     dispatch(todoActions.addTodo(newTodo));
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(ErrorMessage.NONE);
-    dispatch(queryActions.setQuery(e.target.value));
+    setQuery(e.target.value);
   };
 
   const handleInputDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -75,11 +72,11 @@ export const TodoHeader = () => {
   };
 
   const handleOpenForm = () => {
-    setIsActive(true);
+    setIsModalActive(true);
   };
 
   const handleCloseForm = useCallback(() => {
-    setIsActive(false);
+    setIsModalActive(false);
   }, []);
 
   return (
@@ -98,9 +95,16 @@ export const TodoHeader = () => {
           <Plus onClick={handleOpenForm} />
         </div>
       </form>
-      {isActive && (
-        <Modal isActive={isActive} setIsActive={setIsActive}>
-          <TodoForm onClose={handleCloseForm} />
+      {isModalActive && (
+        <Modal
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        >
+          <TodoForm
+            onClose={handleCloseForm}
+            query={query}
+            setQuery={setQuery}
+          />
         </Modal>
       )}
     </header>

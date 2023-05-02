@@ -5,22 +5,22 @@ import React, {
 import './Modal.scss';
 
 type PropTypes = {
-  isActive: boolean;
-  setIsActive: (active: boolean) => void;
+  isModalActive: boolean;
+  setIsModalActive: (active: boolean) => void;
   children: React.ReactNode;
 };
 
 export const Modal: React.FC<PropTypes> = memo(({
   children,
-  setIsActive,
-  isActive,
+  setIsModalActive,
+  isModalActive,
 }) => {
-  const modalRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const modalElement = modalRef.current;
 
-    if (isActive && modalElement) {
+    if (isModalActive && modalElement) {
       const timeoutId = setTimeout(() => {
         modalElement.classList.add('modal--active');
       }, 10);
@@ -29,11 +29,11 @@ export const Modal: React.FC<PropTypes> = memo(({
     }
 
     return () => {};
-  }, [isActive]);
+  }, [setIsModalActive]);
 
   const handleClick = useCallback(() => {
-    setIsActive(false);
-  }, [setIsActive]);
+    setIsModalActive(false);
+  }, [setIsModalActive]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -48,19 +48,17 @@ export const Modal: React.FC<PropTypes> = memo(({
   }, [handleClick]);
 
   return (
-    <button
-      type="button"
+    <div
       className="modal"
       ref={modalRef}
       onClick={handleClick}
     >
-      <button
-        type="button"
+      <div
         className="modal__content"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
-      </button>
-    </button>
+      </div>
+    </div>
   );
 });
