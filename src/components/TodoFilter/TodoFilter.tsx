@@ -5,9 +5,13 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import { FilterBlock } from '../FilterBlock';
 
-import './TodoFooter.scss';
+import './TodoFilter.scss';
 
-export const TodoFooter = () => {
+type PropTypes = {
+  setNotification: (notification: string) => void
+};
+
+export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
   const { todos } = useAppSelector((state) => state.todos);
 
   const dispatch = useAppDispatch();
@@ -26,11 +30,13 @@ export const TodoFooter = () => {
         dispatch(todoActions.deleteTodo(todo.id));
       }
     });
+
+    setNotification('Completed todo/s was/were deleted');
   };
 
   return (
-    <footer className="footer">
-      <span className="footer__todo-count">
+    <div className="filter">
+      <span className="filter__todo-count">
         {`In progress: ${activeCount} todos`}
       </span>
 
@@ -39,11 +45,11 @@ export const TodoFooter = () => {
       <button
         onClick={handleDeleteCompleted}
         type="button"
-        className="footer__completed"
+        className="filter__completed"
         disabled={!completedCount}
       >
         Clear completed
       </button>
-    </footer>
+    </div>
   );
 };

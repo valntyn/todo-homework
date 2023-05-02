@@ -5,7 +5,11 @@ import { Todo } from '../Todo';
 
 import './TodoList.scss';
 
-export const TodoList = () => {
+type PropTypes = {
+  setNotification: (notification: string) => void
+};
+
+export const TodoList: React.FC<PropTypes> = ({ setNotification }) => {
   const todos = useSelector(selectFilteredTodos);
 
   if (!todos.length) {
@@ -15,7 +19,7 @@ export const TodoList = () => {
   return (
     <ul className="todolist">
       {todos.map((todo) => (
-        <Todo key={todo.id} todo={todo} />
+        <Todo key={todo.id} todo={todo} setNotification={setNotification} />
       ))}
     </ul>
   );

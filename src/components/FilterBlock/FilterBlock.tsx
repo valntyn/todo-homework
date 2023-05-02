@@ -17,10 +17,10 @@ export const FilterBlock = () => {
   };
 
   return (
-    <nav className="filter">
+    <nav className="filter-block">
       <button
         type="button"
-        className={classNames('filter__button', {
+        className={classNames('filter-block__button', {
           selected: Filter.ALL === filter,
         })}
         onClick={handleClick(Filter.ALL)}
@@ -30,7 +30,7 @@ export const FilterBlock = () => {
 
       <button
         type="button"
-        className={classNames('filter__button', {
+        className={classNames('filter-block__button', {
           selected: Filter.ACTIVE === filter,
         })}
         onClick={handleClick(Filter.ACTIVE)}
@@ -40,7 +40,7 @@ export const FilterBlock = () => {
 
       <button
         type="button"
-        className={classNames('filter__button', {
+        className={classNames('filter-block__button', {
           selected: Filter.COMPLETED === filter,
         })}
         onClick={handleClick(Filter.COMPLETED)}

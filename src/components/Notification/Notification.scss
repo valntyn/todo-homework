@@ -1,0 +1,21 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  padding: 40px;
+  background-color: $color-almost-white;
+  box-shadow: 0 10px 20px rgba(75, 50, 50, 0.05);
+  border-left: 8px solid $color-green;
+  z-index: 20;
+
+  &__box {
+    @include flex-settings
+  }
+
+  &__text {
+    color: $color-main-title;
+  }
+}

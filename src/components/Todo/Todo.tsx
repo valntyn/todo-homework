@@ -12,9 +12,10 @@ import { TodoForm } from '../TodoForm';
 
 type PropTypes = {
   todo: ITodo;
+  setNotification: (notification: string) => void
 };
 
-export const Todo: React.FC<PropTypes> = ({ todo }) => {
+export const Todo: React.FC<PropTypes> = ({ todo, setNotification }) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -28,6 +29,7 @@ export const Todo: React.FC<PropTypes> = ({ todo }) => {
 
   const handleDeleteTodo = (currentId: number) => () => {
     dispatch(todoActions.deleteTodo(currentId));
+    setNotification('Your todo was successfully deleted');
   };
 
   const handleOpenForm = () => {
