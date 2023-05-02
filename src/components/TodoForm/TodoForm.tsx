@@ -8,9 +8,11 @@ import {
   getDateForm, getDateForInput, convertToDate,
 } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { actions as filterActions } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import './TodoForm.scss';
 import { ErrorMessage } from '../../types/ErrorMessage';
+import { Filter } from '../../types/Filter';
 import { InputChange } from '../../types/InputChange';
 import { ITodo } from '../../types/Todo';
 import { InputField } from '../InputField';
@@ -128,6 +130,7 @@ export const TodoForm: React.FC<PropTypes> = memo(({
     const action = selectedTodo ? todoActions.updateTodo : todoActions.addTodo;
 
     dispatch(action(todo));
+    dispatch(filterActions.setFilter(Filter.ALL));
     onClose();
   };
 

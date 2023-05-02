@@ -1,8 +1,13 @@
-import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { actions as FilterActions } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
+import {
+  selectActiveCount, selectCompletedCount,
+} from '../../store/selectors/selectTodosCount';
+import { Filter } from '../../types/Filter';
 import { FilterBlock } from '../FilterBlock';
 
 import './TodoFilter.scss';
@@ -16,13 +21,8 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
 
   const dispatch = useAppDispatch();
 
-  const activeCount = useMemo(() => {
-    return todos.filter((todo) => !todo.completed).length;
-  }, [todos]);
-
-  const completedCount = useMemo(() => {
-    return todos.filter((todo) => todo.completed).length;
-  }, [todos]);
+  const completedCount = useSelector(selectCompletedCount);
+  const activeCount = useSelector(selectActiveCount);
 
   const handleDeleteCompleted = () => {
     todos.forEach((todo) => {
@@ -31,6 +31,7 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
       }
     });
 
+    dispatch(FilterActions.setFilter(Filter.ALL));
     setNotification('Completed todo/s was/were deleted');
   };
 
