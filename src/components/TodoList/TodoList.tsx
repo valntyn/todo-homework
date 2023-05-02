@@ -1,10 +1,12 @@
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useSelector } from 'react-redux';
+
+import { selectFilteredTodos } from '../../store/selectors/selectFilteredTodos';
 import { Todo } from '../Todo';
 
 import './TodoList.scss';
 
 export const TodoList = () => {
-  const { todos } = useAppSelector((state) => state.todos);
+  const todos = useSelector(selectFilteredTodos);
 
   if (!todos.length) {
     return <p className="todolist__empty">There is nothing left</p>;
