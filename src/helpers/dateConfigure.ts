@@ -43,3 +43,17 @@ export const getDateForInput = (date: Date) => {
     minute: '2-digit',
   });
 };
+
+export function convertToDate(
+  dateString: Date | string,
+  timezoneOffset = 0,
+) {
+  const dateParts = dateString.split(/[.: ]/);
+  const [day, month, year, hour, minute] = dateParts;
+  const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+  date.setMinutes(date.getMinutes() - timezoneOffset);
+  const formattedDate = date.toISOString().slice(0, 16);
+
+  return formattedDate;
+}

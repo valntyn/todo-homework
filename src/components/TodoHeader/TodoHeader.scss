@@ -13,7 +13,7 @@
     width: 100%;
     padding: 20px 60px 20px 56px;
     overflow: hidden;
-    font-size: 24px;
+    font-size: 14px;
     font-family: inherit;
     font-weight: inherit;
     color: inherit;
@@ -26,16 +26,24 @@
       font-weight: 300;
       color: $color-almost-white;
     }
+
+    @include onTablet {
+      font-size: 24px
+    }
   }
 
   &__plus {
     @include flex-settings;
-    height: 40px;
-    width: 40px;
+    height: 26px;
+    width: 24px;
     position: absolute;
     right: 16px;
     top: 14px;
     cursor: pointer;
+
+    @include onTablet {
+      @include square-var(40px)
+    }
   }
 
   &__error {

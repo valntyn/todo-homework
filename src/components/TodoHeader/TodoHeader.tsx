@@ -1,7 +1,11 @@
 import './TodoHeader.scss';
 
 import {
-  FormEvent, KeyboardEvent, useEffect, useState,
+  FormEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useState,
 } from 'react';
 
 import { ReactComponent as Plus } from '../../assets/plus.svg';
@@ -9,22 +13,20 @@ import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
 import { dateByDefault } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { actions as modalActions } from '../../store/actions/modalActions';
-import { actions as queryActions } from '../../store/actions/queryAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import { ErrorMessage } from '../../types/ErrorMessage';
 import { Modal } from '../Modal';
-import { TodoForm } from '../TodoForm/TodoForm';
+import { TodoForm } from '../TodoForm';
 
 export const TodoHeader = () => {
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [query, setQuery] = useState('');
   const [error, setError] = useState(ErrorMessage.NONE);
-  const { query } = useAppSelector((state) => state.query);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const timeoutId = error
-    && setTimeout(() => setError(ErrorMessage.NONE), 1000);
+    const timeoutId
+      = error && setTimeout(() => setError(ErrorMessage.NONE), 1000);
 
     return () => clearTimeout(timeoutId);
   }, [error]);
@@ -54,13 +56,13 @@ export const TodoHeader = () => {
       finishAt: dateByDefault(1),
     };
 
+    setQuery('');
     dispatch(todoActions.addTodo(newTodo));
-    dispatch(queryActions.setQuery(''));
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(ErrorMessage.NONE);
-    dispatch(queryActions.setQuery(e.target.value));
+    setQuery(e.target.value);
   };
 
   const handleInputDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -70,8 +72,12 @@ export const TodoHeader = () => {
   };
 
   const handleOpenForm = () => {
-    dispatch(modalActions.setIsActive(true));
+    setIsModalActive(true);
   };
+
+  const handleCloseForm = useCallback(() => {
+    setIsModalActive(false);
+  }, []);
 
   return (
     <header className="header">
@@ -89,9 +95,18 @@ export const TodoHeader = () => {
           <Plus onClick={handleOpenForm} />
         </div>
       </form>
-      <Modal>
-        <TodoForm />
-      </Modal>
+      {isModalActive && (
+        <Modal
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        >
+          <TodoForm
+            onClose={handleCloseForm}
+            query={query}
+            setQuery={setQuery}
+          />
+        </Modal>
+      )}
     </header>
   );
 };
