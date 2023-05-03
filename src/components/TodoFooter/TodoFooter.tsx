@@ -7,10 +7,10 @@ export const TodoFooter = () => {
   const activeQuantity = useSelector(selectActiveCount);
 
   return (
-    <div className="footer">
+    <footer className="footer">
       <p className="footer__todo-count">
         {`In progress: ${activeQuantity} todos`}
       </p>
-    </div>
+    </footer>
   );
 };
