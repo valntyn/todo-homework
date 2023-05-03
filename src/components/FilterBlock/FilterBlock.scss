@@ -1,0 +1,29 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  @include onTablet {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  &__button {
+    background-color: $color-white;
+    border: none;
+    cursor: pointer;
+    transition: 0.1s linear;
+    border: 2px solid $color-almost-white;
+
+    &:hover {
+      color: $color-main-bg;
+    }
+  }
+}
+
+.selected {
+  border: 2px solid $color-main-title;
+}

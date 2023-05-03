@@ -1,0 +1,31 @@
+@import "../../styles/variables";
+
+.filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  box-sizing: content-box;
+  padding: 10px 15px;
+  text-align: center;
+  border-top: 1px solid $color-almost-white;
+
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+    0 8px 0 -5px $color-shadow;
+
+  &__completed {
+    background-color: $color-white;
+    cursor: pointer;
+    border: none;
+    transition: 0.1s linear;
+
+    &:hover {
+      color: $color-main-bg;
+    }
+
+    &:disabled {
+      opacity: 0;
+      cursor: initial;
+    }
+  }
+}

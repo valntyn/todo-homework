@@ -13,8 +13,10 @@ import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
 import { dateByDefault } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { actions as filterAction } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import { ErrorMessage } from '../../types/ErrorMessage';
+import { Filter } from '../../types/Filter';
 import { Modal } from '../Modal';
 import { TodoForm } from '../TodoForm';
 
@@ -58,6 +60,7 @@ export const TodoHeader = () => {
 
     setQuery('');
     dispatch(todoActions.addTodo(newTodo));
+    dispatch(filterAction.setFilter(Filter.ALL));
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
