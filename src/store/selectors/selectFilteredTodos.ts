@@ -26,7 +26,7 @@ export const selectFilteredTodos = createSelector(
         break;
     }
 
-    if (search.trim()) {
+    if (search.trim().toLowerCase()) {
       filteredTodos = filteredTodos
         .filter((todo) => todo.title
           .toLowerCase()
