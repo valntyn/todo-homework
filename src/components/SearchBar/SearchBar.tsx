@@ -14,7 +14,7 @@ export const SearchBar = () => {
   const dispatch = useAppDispatch();
 
   const debouncedOnChange = useDebouncedCallback((e) => {
-    dispatch(searchActions.setSearch(e.target.value));
+    dispatch(searchActions.setSearch(e.target.value.trim()));
   }, 500);
 
   const handleQuery = (e: ChangeEvent<HTMLInputElement>) => {
