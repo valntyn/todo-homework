@@ -1,23 +1,41 @@
 @import "../../styles/variables";
+@import "../../styles/mixins";
 
 .filter {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
   font-size: 14px;
   box-sizing: content-box;
-  padding: 10px 15px;
+  padding: 10px;
   text-align: center;
   border-top: 1px solid $color-almost-white;
+  gap: 20px;
 
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
     0 8px 0 -5px $color-shadow;
+
+  &__block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: 8px;
+
+    @include onDesktop {
+      flex-direction: row;
+    }
+  }
 
   &__completed {
     background-color: $color-white;
     cursor: pointer;
     border: none;
     transition: 0.1s linear;
+    display: flex;
 
     &:hover {
       color: $color-main-bg;

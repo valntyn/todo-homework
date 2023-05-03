@@ -4,16 +4,14 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { actions as FilterActions } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
-import {
-  selectActiveCount, selectCompletedCount,
-} from '../../store/selectors/selectTodosCount';
+import { selectCompletedCount } from '../../store/selectors/selectTodosCount';
 import { Filter } from '../../types/Filter';
 import { FilterBlock } from '../FilterBlock';
-
 import './TodoFilter.scss';
+import { SearchBar } from '../SearchBar';
 
 type PropTypes = {
-  setNotification: (notification: string) => void
+  setNotification: (notification: string) => void;
 };
 
 export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
@@ -22,7 +20,6 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
   const dispatch = useAppDispatch();
 
   const completedCount = useSelector(selectCompletedCount);
-  const activeCount = useSelector(selectActiveCount);
 
   const handleDeleteCompleted = () => {
     todos.forEach((todo) => {
@@ -37,20 +34,18 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
 
   return (
     <div className="filter">
-      <span className="filter__todo-count">
-        {`In progress: ${activeCount} todos`}
-      </span>
-
-      <FilterBlock />
-
-      <button
-        onClick={handleDeleteCompleted}
-        type="button"
-        className="filter__completed"
-        disabled={!completedCount}
-      >
-        Clear completed
-      </button>
+      <SearchBar />
+      <div className="filter__block">
+        <FilterBlock />
+        <button
+          onClick={handleDeleteCompleted}
+          type="button"
+          className="filter__completed"
+          disabled={!completedCount}
+        >
+          Clear completed
+        </button>
+      </div>
     </div>
   );
 };
