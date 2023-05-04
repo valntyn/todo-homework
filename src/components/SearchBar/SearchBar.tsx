@@ -8,8 +8,6 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import './SearchBar.scss';
 import { actions as searchActions } from '../../store/actions/searchAction';
 
-import classNames from 'classnames';
-
 export const SearchBar = () => {
   const { search } = useAppSelector((state) => state.search);
   const [visualQuery, setVisualQuery] = useState(search);

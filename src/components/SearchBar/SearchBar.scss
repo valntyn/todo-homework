@@ -17,7 +17,6 @@
 
   &__img {
     @include square-var(24px);
-    cursor: pointer;
 
     & * {
       transition: 0.1s linear;
