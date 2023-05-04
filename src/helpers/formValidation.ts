@@ -6,7 +6,7 @@ export const validateForm = (
   value: string,
   dateStart: string | Date,
   dateFinish: string | Date,
-): ErrorMessage | undefined => {
+): ErrorMessage => {
   const fixedStartDate = formatDate(new Date(dateStart));
   const fixedFinishDate = formatDate(new Date(dateFinish));
 
@@ -30,5 +30,5 @@ export const validateForm = (
     return ErrorMessage.INCORRECT_DATE;
   }
 
-  return undefined;
+  return ErrorMessage.NONE;
 };
