@@ -6,9 +6,7 @@ import { ReactComponent as Search } from '../../assets/search.svg';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import './SearchBar.scss';
-import { actions as filterActions } from '../../store/actions/filterAction';
 import { actions as searchActions } from '../../store/actions/searchAction';
-import { Filter } from '../../types/Filter';
 
 export const SearchBar = memo(() => {
   const { search } = useAppSelector((state) => state.search);
@@ -26,7 +24,6 @@ export const SearchBar = memo(() => {
 
   const handleClear = () => {
     setVisualQuery('');
-    dispatch(filterActions.setFilter(Filter.ALL));
     dispatch(searchActions.setSearch(''));
   };
 
