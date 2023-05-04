@@ -19,6 +19,10 @@
     @include square-var(24px);
     cursor: pointer;
 
+    & * {
+      transition: 0.1s linear;
+    }
+
     &:hover * {
       fill: $color-main-title;
     }
@@ -32,6 +36,12 @@
     transition: 0.1s linear;
     width: max-content;
     height: max-content;
+    opacity: 1;
+
+    &:disabled {
+      opacity: 0;
+      cursor: initial;
+    }
   }
 
   &__input {

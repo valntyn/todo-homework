@@ -8,8 +8,10 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import './SearchBar.scss';
 import { actions as searchActions } from '../../store/actions/searchAction';
 
+import classNames from 'classnames';
+
 export const SearchBar = () => {
-  const { search } = useAppSelector(state => state.search);
+  const { search } = useAppSelector((state) => state.search);
   const [visualQuery, setVisualQuery] = useState(search);
   const dispatch = useAppDispatch();
 
@@ -41,6 +43,7 @@ export const SearchBar = () => {
       />
       <button
         type="button"
+        disabled={!visualQuery}
         className="searchBar__button"
         onClick={handleClear}
       >
