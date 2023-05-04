@@ -94,9 +94,13 @@ export const TodoHeader = () => {
           onKeyDown={handleInputDown}
         />
         {error && <p className="header__error">{error}</p>}
-        <div className="header__plus">
-          <Plus onClick={handleOpenForm} />
-        </div>
+        <button
+          type="button"
+          className="header__button"
+          onClick={handleOpenForm}
+        >
+          <Plus className="header__plus" />
+        </button>
       </form>
       {isModalActive && (
         <Modal
