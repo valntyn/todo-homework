@@ -11,7 +11,7 @@ import {
 import { ReactComponent as Plus } from '../../assets/plus.svg';
 import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
-import { dateByDefault } from '../../helpers/dateConfigure';
+import { formatDate } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { actions as filterAction } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
@@ -54,8 +54,8 @@ export const TodoHeader = () => {
       id: +new Date(),
       title: fixedTitle,
       completed: false,
-      createdAt: dateByDefault(),
-      finishAt: dateByDefault(1),
+      createdAt: formatDate(),
+      finishAt: formatDate(new Date(), 1),
     };
 
     setQuery('');
