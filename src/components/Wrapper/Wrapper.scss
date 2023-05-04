@@ -17,11 +17,11 @@
   }
 
   @include onDesktop {
-    padding: 0 340px;
+    padding: 0 270px;
   }
 
   @include onDesktopLarge {
-    padding: 0 540px;
+    padding: 0 480px;
   }
 
   &__title {

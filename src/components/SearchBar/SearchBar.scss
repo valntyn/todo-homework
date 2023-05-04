@@ -1,0 +1,58 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.searchBar {
+  background-color: $color-input-bg;
+  display: flex;
+  padding: 7px 10px;
+  border-radius: 10px;
+  gap: 2px;
+  max-width: 50%;
+  border: 2px solid $color-almost-white;
+  @include flex-settings;
+
+  @include onTablet {
+    max-width: 50%;
+  }
+
+  &__img {
+    @include square-var(24px);
+    cursor: pointer;
+
+    &:hover * {
+      fill: $color-main-title;
+    }
+  }
+
+  &__button {
+    @include flex-settings;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    transition: 0.1s linear;
+    width: max-content;
+    height: max-content;
+  }
+
+  &__input {
+    flex-shrink: 1;
+    width: 100%;
+    padding-left: 14px;
+    outline: none;
+    border: none;
+    font-size: 10px;
+    line-height: 18px;
+    letter-spacing: -0.01em;
+    background-color: $color-input-bg;
+
+    @include onTablet {
+      font-size: 14px;
+    }
+
+    &::placeholder {
+      font-style: italic;
+      font-weight: 300;
+      color: $color-placeholder;
+    }
+  }
+}
