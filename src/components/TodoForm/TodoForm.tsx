@@ -20,12 +20,12 @@ import { InputField } from '../InputField';
 type PropTypes = {
   onClose: () => void;
   selectedTodo?: ITodo;
-  setQuery?: (query: string) => void;
-  query?: string,
+  setQuery?: (queryFromHeader: string) => void;
+  queryFromHeader?: string,
 };
 
 export const TodoForm: React.FC<PropTypes> = memo(({
-  onClose, selectedTodo, query, setQuery,
+  onClose, selectedTodo, queryFromHeader, setQuery,
 }) => {
   const [value, setValue] = useState('');
   const [dateStart, setDateStart] = useState<string | Date>('');
@@ -46,7 +46,7 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       tomorrowDate.setDate(now.getDate() + 1);
       setDateStart(getDateForInput(now));
       setDateFinish(getDateForInput(tomorrowDate));
-      setValue(query!);
+      setValue(queryFromHeader!);
     }
   }, [selectedTodo]);
 
@@ -93,7 +93,7 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       return;
     }
 
-    if (!selectedTodo && query) {
+    if (!selectedTodo && queryFromHeader) {
       setQuery?.('');
     }
 

@@ -10,7 +10,7 @@ import { actions as searchActions } from '../../store/actions/searchAction';
 
 export const SearchBar = () => {
   const { search } = useAppSelector(state => state.search);
-  const [query, setQuery] = useState(search);
+  const [visualQuery, setVisualQuery] = useState(search);
   const dispatch = useAppDispatch();
 
   const debouncedOnChange = useDebouncedCallback((e) => {
@@ -18,12 +18,12 @@ export const SearchBar = () => {
   }, 500);
 
   const handleQuery = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+    setVisualQuery(e.target.value);
     debouncedOnChange(e);
   };
 
   const handleClear = () => {
-    setQuery('');
+    setVisualQuery('');
     dispatch(searchActions.setSearch(''));
   };
 
@@ -33,7 +33,7 @@ export const SearchBar = () => {
       <input
         id="search"
         type="text"
-        value={query}
+        value={visualQuery}
         onChange={handleQuery}
         placeholder="Search here..."
         className="searchBar__input"

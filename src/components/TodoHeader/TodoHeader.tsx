@@ -105,7 +105,7 @@ export const TodoHeader = () => {
         >
           <TodoForm
             onClose={handleCloseForm}
-            query={query}
+            queryFromHeader={query}
             setQuery={setQuery}
           />
         </Modal>

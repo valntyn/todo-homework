@@ -19,7 +19,7 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
 
   const dispatch = useAppDispatch();
 
-  const completedCount = useSelector(selectCompletedCount);
+  const completedTodosCount = useSelector(selectCompletedCount);
 
   const handleDeleteCompleted = () => {
     todos.forEach((todo) => {
@@ -41,7 +41,7 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
           onClick={handleDeleteCompleted}
           type="button"
           className="filter__completed"
-          disabled={!completedCount}
+          disabled={!completedTodosCount}
         >
           Clear completed
         </button>
