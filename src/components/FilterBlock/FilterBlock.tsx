@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { memo } from 'react';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -7,7 +8,7 @@ import { Filter } from '../../types/Filter';
 
 import './FilterBlock.scss';
 
-export const FilterBlock = () => {
+export const FilterBlock = memo(() => {
   const dispatch = useAppDispatch();
 
   const { filter } = useAppSelector((state) => state.filter);
@@ -32,4 +33,4 @@ export const FilterBlock = () => {
       ))}
     </nav>
   );
-};
+});

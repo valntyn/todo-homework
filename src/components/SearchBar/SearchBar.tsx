@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { ReactComponent as Cross } from '../../assets/cross.svg';
@@ -10,7 +10,7 @@ import { actions as filterActions } from '../../store/actions/filterAction';
 import { actions as searchActions } from '../../store/actions/searchAction';
 import { Filter } from '../../types/Filter';
 
-export const SearchBar = () => {
+export const SearchBar = memo(() => {
   const { search } = useAppSelector((state) => state.search);
   const [visualQuery, setVisualQuery] = useState(search);
   const dispatch = useAppDispatch();
@@ -52,4 +52,4 @@ export const SearchBar = () => {
       </button>
     </label>
   );
-};
+});
