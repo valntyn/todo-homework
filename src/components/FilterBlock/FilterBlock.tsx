@@ -20,6 +20,7 @@ export const FilterBlock = () => {
     <nav className="filter-block">
       {Object.values(Filter).map((filterBy) => (
         <button
+          key={filterBy}
           type="button"
           className={classNames('filter-block__button', {
             selected: filterBy === filter,
