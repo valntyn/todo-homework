@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import { ChangeEvent, memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { ReactComponent as Cross } from '../../assets/cross.svg';
 import { ReactComponent as Search } from '../../assets/search.svg';
+import { useTheme } from '../../context/ThemeContext';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import './SearchBar.scss';
@@ -12,6 +14,7 @@ export const SearchBar = memo(() => {
   const { search } = useAppSelector((state) => state.search);
   const [visualQuery, setVisualQuery] = useState(search);
   const dispatch = useAppDispatch();
+  const { theme } = useTheme();
 
   const debouncedOnChange = useDebouncedCallback((e) => {
     dispatch(searchActions.setSearch(e.target.value.trim()));
@@ -27,8 +30,15 @@ export const SearchBar = memo(() => {
     dispatch(searchActions.setSearch(''));
   };
 
+  const isDark = theme === 'dark';
+
   return (
-    <label className="searchBar" htmlFor="search">
+    <label
+      className={classNames('searchBar', {
+        'searchBar--dark': isDark,
+      })}
+      htmlFor="search"
+    >
       <Search className="searchBar__img" />
       <input
         id="search"
@@ -36,7 +46,9 @@ export const SearchBar = memo(() => {
         value={visualQuery}
         onChange={handleQuery}
         placeholder="Search here..."
-        className="searchBar__input"
+        className={classNames('searchBar__input', {
+          'searchBar__input--dark': isDark,
+        })}
         autoComplete="off"
       />
       <button

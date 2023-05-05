@@ -3,6 +3,13 @@
 
 .todo {
   border-bottom: 1px solid $color-almost-white;
+  transition: background-color 0.2s ease, color 0.5s ease;
+
+  &--dark {
+    background-color: $color-dark-content;
+    color: $color-dark-text;
+    border-bottom: 1px solid $color-dark-bg;
+  }
 
   &__content {
     position: relative;
@@ -71,6 +78,10 @@
     color: $color-main-bg;
     padding: 0 4px;
     border-top: 1px solid $color-almost-white;
+
+    &--dark {
+      border-top: 1px solid $color-dark-bg;
+    }
 
     @include onTablet {
       font-size: 14px;

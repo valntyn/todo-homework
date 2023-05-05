@@ -22,6 +22,10 @@
     width: 90vw;
     border: none;
 
+    &--dark {
+      background-color: $color-dark-content;
+    }
+
     @include onTablet {
       width: 80vw;
     }

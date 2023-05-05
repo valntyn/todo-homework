@@ -1,1 +1,14 @@
 @import "./styles/reset";
+@import "./styles/variables";
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light {
+  background-color: $color-light-bg;
+}
+
+body.dark {
+  background-color: $color-dark-bg;
+}
