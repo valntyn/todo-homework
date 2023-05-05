@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { ReactComponent as Pencil } from '../../assets/pencil.svg';
 import { ReactComponent as Trash } from '../../assets/trash.svg';
@@ -15,7 +15,7 @@ type PropTypes = {
   setNotification: (notification: string) => void
 };
 
-export const Todo: React.FC<PropTypes> = ({ todo, setNotification }) => {
+export const Todo: React.FC<PropTypes> = memo(({ todo, setNotification }) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -90,4 +90,4 @@ export const Todo: React.FC<PropTypes> = ({ todo, setNotification }) => {
       )}
     </>
   );
-};
+});

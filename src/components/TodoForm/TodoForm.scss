@@ -42,5 +42,19 @@
     top: 0;
     right: 0;
     color: $color-warning;
+    font-size: 12px;
+    animation-duration: .3s;
+    animation-name: fadeIn;
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+

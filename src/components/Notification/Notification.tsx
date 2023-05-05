@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import './Notification.scss';
 
 type PropTypes = {
@@ -6,8 +6,27 @@ type PropTypes = {
 };
 
 export const Notification: React.FC<PropTypes> = memo(({ notification }) => {
+  const notifyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const notifyElement = notifyRef.current;
+
+    if (notifyElement && notification) {
+      const timeoutId = setTimeout(() => {
+        notifyElement.classList.add('notification--active');
+      }, 10);
+
+      return () => {
+        clearTimeout(timeoutId);
+        notifyElement.classList.remove('notification--active');
+      };
+    }
+
+    return () => {};
+  }, [notification]);
+
   return (
-    <div className="notification">
+    <div ref={notifyRef} className="notification">
       <div className="notification__box">
         <p className="notification__text">{notification}</p>
       </div>

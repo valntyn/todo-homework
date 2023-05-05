@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { ReactComponent as Cross } from '../../assets/cross.svg';
@@ -8,9 +8,9 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import './SearchBar.scss';
 import { actions as searchActions } from '../../store/actions/searchAction';
 
-export const SearchBar = () => {
-  const { search } = useAppSelector(state => state.search);
-  const [query, setQuery] = useState(search);
+export const SearchBar = memo(() => {
+  const { search } = useAppSelector((state) => state.search);
+  const [visualQuery, setVisualQuery] = useState(search);
   const dispatch = useAppDispatch();
 
   const debouncedOnChange = useDebouncedCallback((e) => {
@@ -18,12 +18,12 @@ export const SearchBar = () => {
   }, 500);
 
   const handleQuery = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+    setVisualQuery(e.target.value);
     debouncedOnChange(e);
   };
 
   const handleClear = () => {
-    setQuery('');
+    setVisualQuery('');
     dispatch(searchActions.setSearch(''));
   };
 
@@ -33,7 +33,7 @@ export const SearchBar = () => {
       <input
         id="search"
         type="text"
-        value={query}
+        value={visualQuery}
         onChange={handleQuery}
         placeholder="Search here..."
         className="searchBar__input"
@@ -41,6 +41,7 @@ export const SearchBar = () => {
       />
       <button
         type="button"
+        disabled={!visualQuery}
         className="searchBar__button"
         onClick={handleClear}
       >
@@ -48,4 +49,4 @@ export const SearchBar = () => {
       </button>
     </label>
   );
-};
+});

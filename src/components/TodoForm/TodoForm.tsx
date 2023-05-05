@@ -2,11 +2,11 @@ import {
   FormEvent, memo, useCallback, useEffect, useState,
 } from 'react';
 
-import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
 import {
-  getDateForm, getDateForInput, convertToDate,
+  getDateForInput, convertToDate, formatDate,
 } from '../../helpers/dateConfigure';
+import { validateForm } from '../../helpers/formValidation';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { actions as filterActions } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
@@ -20,12 +20,12 @@ import { InputField } from '../InputField';
 type PropTypes = {
   onClose: () => void;
   selectedTodo?: ITodo;
-  setQuery?: (query: string) => void;
-  query?: string,
+  setQuery?: (queryFromHeader: string) => void;
+  queryFromHeader?: string,
 };
 
 export const TodoForm: React.FC<PropTypes> = memo(({
-  onClose, selectedTodo, query, setQuery,
+  onClose, selectedTodo, queryFromHeader, setQuery,
 }) => {
   const [value, setValue] = useState('');
   const [dateStart, setDateStart] = useState<string | Date>('');
@@ -33,7 +33,7 @@ export const TodoForm: React.FC<PropTypes> = memo(({
   const [error, setError] = useState(ErrorMessage.NONE);
 
   const dispatch = useAppDispatch();
-  const date = new Date();
+  const now = new Date();
 
   useEffect(() => {
     if (selectedTodo) {
@@ -41,12 +41,12 @@ export const TodoForm: React.FC<PropTypes> = memo(({
       setDateFinish(convertToDate(selectedTodo.finishAt));
       setValue(selectedTodo.title);
     } else {
-      const tomorrowDate = new Date(date);
+      const tomorrowDate = new Date(now);
 
-      tomorrowDate.setDate(date.getDate() + 1);
-      setDateStart(getDateForInput(date));
+      tomorrowDate.setDate(now.getDate() + 1);
+      setDateStart(getDateForInput(now));
       setDateFinish(getDateForInput(tomorrowDate));
-      setValue(query!);
+      setValue(queryFromHeader!);
     }
   }, [selectedTodo]);
 
@@ -78,44 +78,22 @@ export const TodoForm: React.FC<PropTypes> = memo(({
     }, [],
   );
 
-  const canSave = () => [value.trim(), dateFinish, dateStart].every(Boolean);
-
   const handleSubmitForm = (e: FormEvent) => {
     e.preventDefault();
 
     const fixedTitle = capitalize(value).trim();
-    const fixedStartDate = getDateForm(new Date(dateStart));
-    const fixedFinishDate = getDateForm(new Date(dateFinish));
+    const fixedStartDate = formatDate(new Date(dateStart));
+    const fixedFinishDate = formatDate(new Date(dateFinish));
 
-    if (!TODO_REGEX.test(value) && value) {
-      setError(ErrorMessage.INCORRECT);
+    const receivedError = validateForm(value, dateStart, dateFinish);
 
-      return;
-    }
-
-    if (!canSave()) {
-      setError(ErrorMessage.EMPTY);
+    if (receivedError) {
+      setError(receivedError);
 
       return;
     }
 
-    if (+new Date(dateStart) > +new Date(dateFinish)) {
-      setError(ErrorMessage.DATE_GREATER);
-
-      return;
-    }
-
-    if (
-      new Date(dateStart).getFullYear() < new Date().getFullYear()
-      || fixedFinishDate === 'Invalid Date'
-      || fixedStartDate === 'Invalid Date'
-    ) {
-      setError(ErrorMessage.INCORRECT_DATE);
-
-      return;
-    }
-
-    if (!selectedTodo && query) {
+    if (!selectedTodo && queryFromHeader) {
       setQuery?.('');
     }
 
@@ -165,7 +143,7 @@ export const TodoForm: React.FC<PropTypes> = memo(({
         text="Select date and time when you will finish your todo:"
         type="datetime-local"
         handleChange={(e) => handleDateTimeChange(e, InputChange.FINISH)}
-        min={getDateForInput(date)}
+        min={getDateForInput(now)}
         values={dateFinish}
         id="dateFinish"
       />

@@ -26,16 +26,12 @@
 
   &__title {
     margin: 80px auto 20px auto;
-    font-size: 48px;
+    font-size: 80px;
     font-weight: 100;
     text-align: center;
     color: $color-main-title;
 
     @include onTablet {
-      font-size: 62px;
-    }
-  
-    @include onDesktop {
       font-size: 100px;
     }
   }

@@ -11,7 +11,7 @@ import {
 import { ReactComponent as Plus } from '../../assets/plus.svg';
 import { TODO_REGEX } from '../../constants';
 import { capitalize } from '../../helpers/capitalize';
-import { dateByDefault } from '../../helpers/dateConfigure';
+import { formatDate } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { actions as filterAction } from '../../store/actions/filterAction';
 import { actions as todoActions } from '../../store/actions/todosActions';
@@ -54,8 +54,8 @@ export const TodoHeader = () => {
       id: +new Date(),
       title: fixedTitle,
       completed: false,
-      createdAt: dateByDefault(),
-      finishAt: dateByDefault(1),
+      createdAt: formatDate(),
+      finishAt: formatDate(new Date(), 1),
     };
 
     setQuery('');
@@ -94,9 +94,13 @@ export const TodoHeader = () => {
           onKeyDown={handleInputDown}
         />
         {error && <p className="header__error">{error}</p>}
-        <div className="header__plus">
-          <Plus onClick={handleOpenForm} />
-        </div>
+        <button
+          type="button"
+          className="header__button"
+          onClick={handleOpenForm}
+        >
+          <Plus className="header__plus" />
+        </button>
       </form>
       {isModalActive && (
         <Modal
@@ -105,7 +109,7 @@ export const TodoHeader = () => {
         >
           <TodoForm
             onClose={handleCloseForm}
-            query={query}
+            queryFromHeader={query}
             setQuery={setQuery}
           />
         </Modal>
