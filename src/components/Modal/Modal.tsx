@@ -47,11 +47,13 @@ export const Modal: React.FC<PropTypes> = memo(
       return () => document.removeEventListener('keydown', handleKeyPress);
     }, [handleClick]);
 
+    const isDark = theme === 'dark';
+
     return (
       <div className="modal" ref={modalRef} onClick={handleClick}>
         <div
           className={classNames('modal__content', {
-            'modal__content--dark': theme === 'dark',
+            'modal__content--dark': isDark,
           })}
           onClick={(e) => e.stopPropagation()}
         >
