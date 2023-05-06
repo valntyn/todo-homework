@@ -15,7 +15,7 @@ type PropTypes = {
 export const Modal: React.FC<PropTypes> = memo(
   ({ children, setIsModalActive, isModalActive }) => {
     const modalRef = useRef<HTMLDivElement>(null);
-    const { theme } = useTheme();
+    const { isDark } = useTheme();
 
     useEffect(() => {
       const modalElement = modalRef.current;
@@ -46,8 +46,6 @@ export const Modal: React.FC<PropTypes> = memo(
 
       return () => document.removeEventListener('keydown', handleKeyPress);
     }, [handleClick]);
-
-    const isDark = theme === 'dark';
 
     return (
       <div className="modal" ref={modalRef} onClick={handleClick}>

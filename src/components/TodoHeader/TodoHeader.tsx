@@ -29,7 +29,7 @@ export const TodoHeader = () => {
   const [error, setError] = useState(ErrorMessage.NONE);
   const dispatch = useAppDispatch();
 
-  const { setTheme, theme } = useTheme();
+  const { setTheme, isDark, theme } = useTheme();
 
   useEffect(() => {
     const timeoutId
@@ -93,8 +93,6 @@ export const TodoHeader = () => {
     localStorage.setItem('theme', newTheme);
     setTheme(newTheme);
   };
-
-  const isDark = theme === 'dark';
 
   return (
     <header

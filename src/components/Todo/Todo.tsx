@@ -19,8 +19,7 @@ type PropTypes = {
 export const Todo: React.FC<PropTypes> = memo(({ todo, setNotification }) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const dispatch = useAppDispatch();
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const { isDark } = useTheme();
 
   const {
     finishAt, createdAt, title, id, completed,

@@ -18,7 +18,7 @@ type PropTypes = {
 
 export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
   const { todos } = useAppSelector((state) => state.todos);
-  const { theme } = useTheme();
+  const { isDark } = useTheme();
 
   const dispatch = useAppDispatch();
 
@@ -34,8 +34,6 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
     dispatch(FilterActions.setFilter(Filter.ALL));
     setNotification('Completed todo/s was/were deleted');
   };
-
-  const isDark = theme === 'dark';
 
   return (
     <div className={classNames('filter', {

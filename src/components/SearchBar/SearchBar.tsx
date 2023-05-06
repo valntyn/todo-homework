@@ -14,7 +14,7 @@ export const SearchBar = memo(() => {
   const { search } = useAppSelector((state) => state.search);
   const [visualQuery, setVisualQuery] = useState(search);
   const dispatch = useAppDispatch();
-  const { theme } = useTheme();
+  const { isDark } = useTheme();
 
   const debouncedOnChange = useDebouncedCallback((e) => {
     dispatch(searchActions.setSearch(e.target.value.trim()));
@@ -29,8 +29,6 @@ export const SearchBar = memo(() => {
     setVisualQuery('');
     dispatch(searchActions.setSearch(''));
   };
-
-  const isDark = theme === 'dark';
 
   return (
     <label

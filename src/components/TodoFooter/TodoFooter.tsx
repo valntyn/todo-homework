@@ -8,8 +8,7 @@ import './TodoFooter.scss';
 export const TodoFooter = () => {
   const activeTodosCount = useSelector(selectActiveCount);
 
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const { isDark } = useTheme();
 
   return (
     <footer className={classNames('footer', {

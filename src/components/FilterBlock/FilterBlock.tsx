@@ -13,8 +13,7 @@ export const FilterBlock = memo(() => {
   const dispatch = useAppDispatch();
 
   const { filter } = useAppSelector((state) => state.filter);
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const { isDark } = useTheme();
 
   const handleClick = (type: Filter) => () => {
     dispatch(FilterActions.setFilter(type));

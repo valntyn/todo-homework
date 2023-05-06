@@ -14,8 +14,7 @@ type PropTypes = {
 
 export const TodoList: React.FC<PropTypes> = ({ setNotification }) => {
   const todos = useSelector(selectFilteredTodos);
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const { isDark } = useTheme();
 
   const { search } = useAppSelector((state) => state.search);
 
