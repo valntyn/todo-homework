@@ -1,5 +1,6 @@
 import './TodoHeader.scss';
 
+import classNames from 'classnames';
 import {
   FormEvent,
   KeyboardEvent,
@@ -8,8 +9,10 @@ import {
   useState,
 } from 'react';
 
+import { ReactComponent as Moon } from '../../assets/moon.svg';
 import { ReactComponent as Plus } from '../../assets/plus.svg';
 import { TODO_REGEX } from '../../constants';
+import { Theme, useTheme } from '../../context/ThemeContext';
 import { capitalize } from '../../helpers/capitalize';
 import { formatDate } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -25,6 +28,8 @@ export const TodoHeader = () => {
   const [query, setQuery] = useState('');
   const [error, setError] = useState(ErrorMessage.NONE);
   const dispatch = useAppDispatch();
+
+  const { setTheme, isDark, theme } = useTheme();
 
   useEffect(() => {
     const timeoutId
@@ -82,8 +87,30 @@ export const TodoHeader = () => {
     setIsModalActive(false);
   }, []);
 
+  const handleChangeTheme = () => {
+    const newTheme = theme === Theme.Light ? Theme.Dark : Theme.Light;
+
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+  };
+
   return (
-    <header className="header">
+    <header
+      className={classNames('header', {
+        'header--dark': isDark,
+      })}
+    >
+      <button
+        type="button"
+        className="header__switcher"
+        onClick={handleChangeTheme}
+      >
+        <Moon
+          className={classNames('header__svg', {
+            'header__svg--dark': isDark,
+          })}
+        />
+      </button>
       <form className="header__form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -99,7 +126,7 @@ export const TodoHeader = () => {
           className="header__button"
           onClick={handleOpenForm}
         >
-          <Plus className="header__plus" />
+          <Plus className="header__svg" />
         </button>
       </form>
       {isModalActive && (

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { memo } from 'react';
 
+import { useTheme } from '../../context/ThemeContext';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { actions as FilterActions } from '../../store/actions/filterAction';
@@ -12,6 +13,7 @@ export const FilterBlock = memo(() => {
   const dispatch = useAppDispatch();
 
   const { filter } = useAppSelector((state) => state.filter);
+  const { isDark } = useTheme();
 
   const handleClick = (type: Filter) => () => {
     dispatch(FilterActions.setFilter(type));
@@ -25,6 +27,7 @@ export const FilterBlock = memo(() => {
           type="button"
           className={classNames('filter-block__button', {
             selected: filterBy === filter,
+            'filter-block__button--dark': isDark,
           })}
           onClick={handleClick(filterBy)}
         >

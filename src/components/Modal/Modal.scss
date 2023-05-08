@@ -14,13 +14,18 @@
   opacity: 0;
   transition: 0.3s linear;
   z-index: 10;
-
+  
   &__content {
     padding: 10px;
     border-radius: 4px;
     background-color: $color-white;
     width: 90vw;
     border: none;
+
+    &--dark {
+      background-color: $color-dark-content;
+      color: $color-dark-text;
+    }
 
     @include onTablet {
       width: 80vw;

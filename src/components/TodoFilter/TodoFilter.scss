@@ -13,8 +13,13 @@
   border-top: 1px solid $color-almost-white;
   gap: 20px;
 
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
-    0 8px 0 -5px $color-shadow;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+  &--dark {
+    border-top: 1px solid $color-dark-main-content;
+    background-color: $color-dark-main-content;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  }
 
   &__block {
     display: flex;
@@ -34,8 +39,12 @@
     background-color: $color-white;
     cursor: pointer;
     border: none;
-    transition: 0.1s linear;
     display: flex;
+
+    &--dark {
+      background-color: $color-dark-content;
+      color: $color-dark-text;
+    }
 
     &:hover {
       color: $color-main-bg;

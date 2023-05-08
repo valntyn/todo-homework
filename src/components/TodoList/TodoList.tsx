@@ -1,5 +1,7 @@
+import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 
+import { useTheme } from '../../context/ThemeContext';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectFilteredTodos } from '../../store/selectors/selectFilteredTodos';
 import { Todo } from '../Todo';
@@ -7,20 +9,37 @@ import { Todo } from '../Todo';
 import './TodoList.scss';
 
 type PropTypes = {
-  setNotification: (notification: string) => void
+  setNotification: (notification: string) => void;
 };
 
 export const TodoList: React.FC<PropTypes> = ({ setNotification }) => {
   const todos = useSelector(selectFilteredTodos);
+  const { isDark } = useTheme();
 
-  const { search } = useAppSelector(state => state.search);
+  const { search } = useAppSelector((state) => state.search);
 
   if (!todos.length && search) {
-    return <p className="todolist__empty">No results found</p>;
+    return (
+      <p
+        className={classNames('todolist__empty', {
+          'todolist__empty--dark': isDark,
+        })}
+      >
+        No results found
+      </p>
+    );
   }
 
   if (!todos.length) {
-    return <p className="todolist__empty">There is nothing left</p>;
+    return (
+      <p
+        className={classNames('todolist__empty', {
+          'todolist__empty--dark': isDark,
+        })}
+      >
+        There is nothing left
+      </p>
+    );
   }
 
   return (

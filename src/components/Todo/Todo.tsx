@@ -3,6 +3,7 @@ import { memo, useCallback, useState } from 'react';
 
 import { ReactComponent as Pencil } from '../../assets/pencil.svg';
 import { ReactComponent as Trash } from '../../assets/trash.svg';
+import { useTheme } from '../../context/ThemeContext';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { actions as todoActions } from '../../store/actions/todosActions';
 import './Todo.scss';
@@ -18,6 +19,7 @@ type PropTypes = {
 export const Todo: React.FC<PropTypes> = memo(({ todo, setNotification }) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const dispatch = useAppDispatch();
+  const { isDark } = useTheme();
 
   const {
     finishAt, createdAt, title, id, completed,
@@ -42,7 +44,11 @@ export const Todo: React.FC<PropTypes> = memo(({ todo, setNotification }) => {
 
   return (
     <>
-      <li className={classNames('todo', { completed })}>
+      <li className={classNames('todo', {
+        completed,
+        'todo--dark': isDark,
+      })}
+      >
         <div className="todo__content">
           <label className="todo__status-label" htmlFor={`${id}`}>
             <input
@@ -71,7 +77,10 @@ export const Todo: React.FC<PropTypes> = memo(({ todo, setNotification }) => {
             </button>
           </div>
         </div>
-        <div className="todo__date-box">
+        <div className={classNames('todo__date-box', {
+          'todo__date-box--dark': isDark,
+        })}
+        >
           <p className={classNames('todo__date', { completed })}>
             {`Created at: ${createdAt}`}
           </p>

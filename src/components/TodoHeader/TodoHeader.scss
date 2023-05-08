@@ -3,10 +3,16 @@
 
 .header {
   position: relative;
+  transition: color 0.5s ease;
+
+  &--dark {
+    background-color: $color-dark-content;
+    color: $color-dark-text;
+  }
 
   &__form {
     position: relative;
-    @include flex-settings
+    @include flex-settings;
   }
 
   &__new-todo {
@@ -18,7 +24,7 @@
     font-weight: inherit;
     color: inherit;
     background: rgba(0, 0, 0, 0.01);
-    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
     border: none;
 
     &::placeholder {
@@ -28,7 +34,7 @@
     }
 
     @include onTablet {
-      font-size: 24px
+      font-size: 24px;
     }
   }
 
@@ -49,13 +55,38 @@
     }
 
     @include onTablet {
-      @include square-var(40px)
+      @include square-var(40px);
     }
   }
 
-  &__plus {
+  &__switcher {
+    position: absolute;
+    z-index: 10;
+    cursor: pointer;
+    background-color: inherit;
+    top: 14px;
+    left: 10px;
+    height: 30px;
+    width: 35px;
+    transition: transform 0.1s linear;
+    border: none;
+
+    &:hover {
+      transform: rotate(45deg);
+    }
+
+    @include onTablet {
+      @include square-var(40px);
+    }
+  }
+
+  &__svg {
     width: 100%;
     height: 100%;
+
+    &--dark * {
+      fill: $color-light-bg;
+    }
   }
 
   &__error {
@@ -65,7 +96,7 @@
     font-size: 18px;
     padding: 0 10px;
     color: $color-main-title;
-    animation-duration: .3s;
+    animation-duration: 0.3s;
     animation-name: fadeIn;
   }
 }

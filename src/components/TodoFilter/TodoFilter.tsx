@@ -1,5 +1,7 @@
+import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 
+import { useTheme } from '../../context/ThemeContext';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { actions as FilterActions } from '../../store/actions/filterAction';
@@ -16,6 +18,7 @@ type PropTypes = {
 
 export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
   const { todos } = useAppSelector((state) => state.todos);
+  const { isDark } = useTheme();
 
   const dispatch = useAppDispatch();
 
@@ -33,14 +36,19 @@ export const TodoFilter: React.FC<PropTypes> = ({ setNotification }) => {
   };
 
   return (
-    <div className="filter">
+    <div className={classNames('filter', {
+      'filter--dark': isDark,
+    })}
+    >
       <SearchBar />
       <div className="filter__block">
         <FilterBlock />
         <button
           onClick={handleDeleteCompleted}
           type="button"
-          className="filter__completed"
+          className={classNames('filter__completed', {
+            'filter__completed--dark': isDark,
+          })}
           disabled={!completedTodosCount}
         >
           Clear completed
