@@ -12,7 +12,7 @@ import {
 import { ReactComponent as Moon } from '../../assets/moon.svg';
 import { ReactComponent as Plus } from '../../assets/plus.svg';
 import { TODO_REGEX } from '../../constants';
-import { useTheme } from '../../context/ThemeContext';
+import { Theme, useTheme } from '../../context/ThemeContext';
 import { capitalize } from '../../helpers/capitalize';
 import { formatDate } from '../../helpers/dateConfigure';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -88,7 +88,7 @@ export const TodoHeader = () => {
   }, []);
 
   const handleChangeTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === Theme.Light ? Theme.Dark : Theme.Light;
 
     localStorage.setItem('theme', newTheme);
     setTheme(newTheme);

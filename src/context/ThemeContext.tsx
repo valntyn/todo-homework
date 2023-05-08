@@ -5,7 +5,10 @@ import React, {
   useState,
 } from 'react';
 
-export type Theme = 'light' | 'dark';
+export enum Theme {
+  Light = 'light',
+  Dark = 'dark',
+}
 
 type ThemeContexT = {
   theme: Theme;
@@ -14,7 +17,7 @@ type ThemeContexT = {
 };
 
 const ThemeContext = createContext<ThemeContexT>({
-  theme: 'light',
+  theme: Theme.Light,
   setTheme: () => {},
   isDark: false,
 });
@@ -28,7 +31,7 @@ export const ThemeContextProvider: React.FC<PropsTypes> = ({ children }) => {
     () => (localStorage.getItem('theme') as Theme),
   );
 
-  const isDark = theme === 'dark';
+  const isDark = theme === Theme.Dark;
 
   return (
     <ThemeContext.Provider value={{

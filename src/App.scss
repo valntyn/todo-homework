@@ -1,6 +1,10 @@
 @import "./styles/reset";
 @import "./styles/variables";
 
+body {
+  transition: background-color 0.2s ease-out;
+}
+
 body.light {
   background-color: $color-light-bg;
 }

@@ -3,7 +3,7 @@
 
 .todo {
   border-bottom: 1px solid $color-almost-white;
-  transition: background-color 0.2s ease, color 0.5s ease;
+  transition: color 0.5s ease;
 
   &--dark {
     background-color: $color-dark-content;
